@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace RabbitRegister.Model
 {
-    [Table("Wools")]
+    //[Table("Wools")]
     public class Wool : Product
     {
         [Display(Name = "Vægt (gram): ")]

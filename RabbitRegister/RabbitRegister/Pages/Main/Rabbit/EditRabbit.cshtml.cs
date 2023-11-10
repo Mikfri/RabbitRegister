@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RabbitRegister.Migrations;
 using RabbitRegister.Model;
+using RabbitRegister.Services.BreederService;
 using RabbitRegister.Services.RabbitService;
 using System.Diagnostics;
 using System.Drawing;
@@ -31,59 +31,44 @@ namespace RabbitRegister.Pages.Main.Rabbit
                 return NotFound();
             }
 
-            if (User.Identity.Name != existingRabbit.Owner.ToString())
-            {
-                return Forbid();
-            }
+            //if (User.Identity.Name != existingRabbit.Owner.ToString())
+            //{
+            //    return Forbid();
+            //}
 
             // Kopier data fra eksisterende Rabbit til RabbitDTO
             RabbitDTO = new RabbitDTO
             {
+                Owner = existingRabbit.Owner,
                 RabbitRegNo = existingRabbit.RabbitRegNo,
                 OriginRegNo = existingRabbit.OriginRegNo,
-                // Kopier de øvrige egenskaber her
                 Name = existingRabbit.Name,
                 Race = existingRabbit.Race,
                 Color = existingRabbit.Color,
-                // Kopier resten af egenskaberne
+                Sex = existingRabbit.Sex,
+                DateOfBirth = existingRabbit.DateOfBirth,
+                Weight = existingRabbit.Weight,
+                Rating = existingRabbit.Rating,
+                DeadOrAlive = existingRabbit.DeadOrAlive,
+                IsForSale = existingRabbit.IsForSale,
+                SuitableForBreeding = existingRabbit.SuitableForBreeding,
+                CauseOfDeath = existingRabbit.CauseOfDeath,
+                Comments = existingRabbit.Comments,
+                ImageString = existingRabbit.ImageString,
             };
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int rabbitRegNo, int originRegNo)
+        public async Task<IActionResult> OnPostAsync(RabbitDTO rabbitDTO, int rabbitRegNo, int originRegNo)
         {
-            var existingRabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
-
-            if (existingRabbit == null)
-            {
-                return NotFound();
-            }
-
-            if (User.Identity.Name != existingRabbit.Owner.ToString())
-            {
-                return Forbid();
-            }
 
             if (!ModelState.IsValid)
             {
                 return Page();
-            }
+            }                     
 
-            existingRabbit.Name = RabbitDTO.Name;
-            existingRabbit.Race = RabbitDTO.Race;
-            existingRabbit.Color = RabbitDTO.Color;
-            existingRabbit.Sex = RabbitDTO.Sex;
-            existingRabbit.DateOfBirth = RabbitDTO.DateOfBirth;
-            existingRabbit.Weight = RabbitDTO.Weight;
-            existingRabbit.Rating = RabbitDTO.Rating;
-            existingRabbit.DeadOrAlive = RabbitDTO.DeadOrAlive;
-            existingRabbit.IsForSale = RabbitDTO.IsForSale;
-            existingRabbit.SuitableForBreeding = RabbitDTO.SuitableForBreeding;
-            existingRabbit.CauseOfDeath = RabbitDTO.CauseOfDeath;
-            existingRabbit.ImageString = RabbitDTO.ImageString;           
-
-            await _rabbitService.UpdateRabbitAsync(RabbitDTO, rabbitRegNo, originRegNo);
+            await _rabbitService.UpdateRabbitAsync(rabbitDTO, rabbitRegNo, originRegNo);
             return RedirectToPage("GetAllRabbits");
         }
     }

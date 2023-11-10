@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RabbitRegister.Model
 {
-    [Table("Yarns")] // Angiver tabelnavnet for Yarn-klassen i databasen
+    //[Table("Yarns")] // Angiver tabelnavnet for Yarn-klassen i databasen
     public class Yarn : Product // Yarn-klassen arver fra Product-klassen
     {
         [Display(Name = "Fiber")]

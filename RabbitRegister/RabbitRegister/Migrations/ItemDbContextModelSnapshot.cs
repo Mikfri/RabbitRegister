@@ -56,7 +56,7 @@ namespace RabbitRegister.Migrations
 
                     b.HasKey("BreederRegNo");
 
-                    b.ToTable("Breeder");
+                    b.ToTable("Breeders");
                 });
 
             modelBuilder.Entity("RabbitRegister.Model.Order", b =>

@@ -9,79 +9,151 @@
     URL'en kommer derfor til at stå som noget ala: /EditRabbit/1/5095, hvor 1 er {rabbitRegNo}, og 5095 er {originRegNo}..
     Kaninens sekundære composite ID -->
 
-<link rel="stylesheet" href="/css/rabbitSite.css" />
+<link rel="stylesheet" href="/css/responsiveForm.css" />
+
 
 <br><br><br>
 
-<div class="create-form">
-
+<div class="create-container">
     <form method="post" asp-page="EditRabbit" asp-page-handler="OnPostAsync">
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Owner" class="control-label"></label>
-            <input asp-for="RabbitDTO.Owner" class="form-control" readonly="@true" />
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Owner" class="control-label">Nuværende ejer </label>
+            </div>
+            <div class="col-75">
+                <input asp-for="@Model.RabbitDTO.Owner" class="form-control" readonly="@true" />
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.RabbitRegNo" class="control-label"></label>
-            <input asp-for="RabbitDTO.RabbitRegNo" class="form-control" readonly="@true" />
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.RabbitRegNo" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.RabbitRegNo" class="form-control" readonly="@true" placeholder="Venstre-øre ID" />
+                <span asp-validation-for="@Model.RabbitDTO.RabbitRegNo" class="text-danger"></span>
+            </div>
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.OriginRegNo" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.OriginRegNo" class="form-control" readonly="@true" placeholder="Højre-øre ID" />
+                <span asp-validation-for="@Model.RabbitDTO.OriginRegNo" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.OriginRegNo" class="control-label"></label>
-            <input asp-for="RabbitDTO.OriginRegNo" class="form-control" readonly="@true" />
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.DateOfBirth" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.DateOfBirth" class="form-control"/>
+                <span asp-validation-for="@Model.RabbitDTO.DateOfBirth" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Name" class="control-label"></label>
-            <input asp-for="RabbitDTO.Name" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Name" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Name" class="control-label"></label>
+            </div>
+            <div class="col-75">
+                <input asp-for="@Model.RabbitDTO.Name" class="form-control" />
+                <span asp-validation-for="@Model.RabbitDTO.Name" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Race" class="control-label"></label>
-            <input asp-for="RabbitDTO.Race" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Race" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Race" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <select id="raceDropdown" asp-for="@Model.RabbitDTO.Race" class="form-control">
+                    <option value="Angora">Angora</option>
+                    <option value="Satin-Angora">Satin-Angora</option>
+                </select>
+                <span asp-validation-for="@Model.RabbitDTO.Race" class="text-danger"></span>
+            </div>
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Color" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <select id="colorDropdown" asp-for="@Model.RabbitDTO.Color" class="form-control">
+                    <!-- Options will be populated dynamically using JavaScript -->
+                </select>
+                <span asp-validation-for="@Model.RabbitDTO.Color" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Color" class="control-label"></label>
-            <input asp-for="RabbitDTO.Color" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Color" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.DeadOrAlive" class="control-label">Status</label>
+            </div>
+            <div class="col-25">
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.DeadOrAlive" value="Levende" /> Levende
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.DeadOrAlive" value="Død" /> Død
+                    </label>
+                </div>
+                <span asp-validation-for="@Model.RabbitDTO.DeadOrAlive" class="text-danger"></span>
+            </div>
+
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Sex" class="control-label">Køn</label>
+            </div>
+            <div class="col-25">
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.Sex" value="Han" /> Han
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.Sex" value="Hun" /> Hun
+                    </label>
+                </div>
+                <span asp-validation-for="@Model.RabbitDTO.Sex" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Sex" class="control-label"></label>
-            <input asp-for="RabbitDTO.Sex" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Sex" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.IsForSale" class="control-label">Til salg</label>
+            </div>
+            <div class="col-75">
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.IsForSale" value="Nej" /> Nej
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" asp-for="@Model.RabbitDTO.IsForSale" value="Ja" /> Ja
+                    </label>
+                </div>
+                <span asp-validation-for="@Model.RabbitDTO.IsForSale" class="text-danger"></span>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.DateOfBirth" class="control-label"></label>
-            <input asp-for="RabbitDTO.DateOfBirth" class="form-control" />
-            <span asp-validation-for="RabbitDTO.DateOfBirth" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Weight" class="control-label"></label>
-            <input asp-for="RabbitDTO.Weight" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Weight" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="RabbitDTO.Rating" class="control-label"></label>
-            <input asp-for="RabbitDTO.Rating" class="form-control" />
-            <span asp-validation-for="RabbitDTO.Rating" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="RabbitDTO.DeadOrAlive" class="control-label"></label>
-            <input asp-for="RabbitDTO.DeadOrAlive" value="Levende" class="form-control" />
-            <span asp-validation-for="RabbitDTO.DeadOrAlive" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="RabbitDTO.IsForSale" class="control-label"></label>
-            <input asp-for="RabbitDTO.IsForSale" value="Nej" class="form-control" />
-            <span asp-validation-for="RabbitDTO.IsForSale" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Weight" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.Weight" class="form-control" placeholder="Vægt i gram"/>
+                <span asp-validation-for="@Model.RabbitDTO.Weight" class="text-danger"></span>
+            </div>
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.Rating" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.Rating" class="form-control" placeholder="Point" />
+                <span asp-validation-for="@Model.RabbitDTO.Rating" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -96,26 +168,75 @@
             <span asp-validation-for="RabbitDTO.CauseOfDeath" class="text-danger"></span>
         </div>
 
+
         <div class="form-group">
             <label asp-for="RabbitDTO.Comments" class="control-label"></label>
             <input asp-for="RabbitDTO.Comments" class="form-control" />
             <span asp-validation-for="RabbitDTO.Comments" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RabbitDTO.ImageString" class="control-label"></label>
-            <input asp-for="RabbitDTO.ImageString" class="form-control" />
-            <span asp-validation-for="RabbitDTO.ImageString" class="text-danger"></span>
+        <div class="row">
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.ImageString" class="control-label">Billede</label>
+            </div>
+            <div class="col-75">
+                <input asp-for="@Model.RabbitDTO.ImageString" class="form-control" />
+                <span asp-validation-for="@Model.RabbitDTO.ImageString" class="text-danger"></span>
+            </div>
         </div>
 
         <p>
             <div class="form-group">
                 <input type="submit" value="Opdater" class="btn btn-success" />
-                <a href="/Main/Rabbit/GetAllRabbits?breederRegNo=@User.Identity.Name" class="btn btn-warning text-white">Fortryd </a>
+                <a href="/Main/Rabbit/GetAllRabbits" class="btn btn-warning text-white">Fortryd </a>
             </div>
         </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach (var key in ViewData.ModelState.Keys)
+                    {
+                        foreach (var error in ViewData.ModelState[key].Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
     </form>
 </div>
+<br><br>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var raceDropdown = document.getElementById("raceDropdown"); //  [selectedRace] De 2 racer er allerede defineret længere oppe
+        var colorDropdown = document.getElementById("colorDropdown");
 
-<br />
-<br />
+        // Array af lovlige farver for hver race
+        var colorsByRace = {
+            "Angora": ["Grå", "Gul", "Blå", "Hvid", "Sort"],
+            "Satin-Angora": ["Beige", "Sort", "Rød", "Brun"]
+        };
+
+        // Opdatere farvedropdown baseret på race
+        function updateColorDropdown() {
+            var selectedRace = raceDropdown.value;
+            colorDropdown.innerHTML = "";
+
+            colorsByRace[selectedRace].forEach(function (color) {
+                var option = document.createElement("option");
+                option.value = color;
+                option.textContent = color;
+                colorDropdown.appendChild(option);
+            });
+        }
+
+        // Lytter efter ændringer i racen, opdatere farven
+        raceDropdown.addEventListener("change", updateColorDropdown);
+
+        // Initial opdatering ved siden indlæsning
+        updateColorDropdown();
+    });
+</script>
