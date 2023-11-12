@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RabbitRegister.Model
 {
-    [Table("Breeder")] // Angiver tabellens navn i databasen              // Overflødig
+    //[Table("Breeder")] // Angiver tabellens navn i databasen              // Overflødig
     //[PrimaryKey("BreederRegNo")] // Angiver primærnøglen for tabellen     // Også en mulighed.. Men [Key] ovenover propertien er lettere..
     public class Breeder
     {

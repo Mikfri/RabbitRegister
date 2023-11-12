@@ -93,7 +93,6 @@ namespace RabbitRegister.Services.RabbitService
 
         }
 
-
         /// <summary>
         /// Henter en kanin fra listen _rabbits via. LAMBDA og LINQ ud fra dens composite-key
         /// </summary>
@@ -174,7 +173,6 @@ namespace RabbitRegister.Services.RabbitService
                 }
             }
         }
-
 
         public async Task ChangeOwnership(Rabbit rabbit, int oldOwner, int newOwner)
         {

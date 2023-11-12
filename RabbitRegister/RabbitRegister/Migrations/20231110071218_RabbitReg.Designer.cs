@@ -12,7 +12,7 @@ using RabbitRegister.EFDbContext;
 namespace RabbitRegister.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231105105000_RabbitReg")]
+    [Migration("20231110071218_RabbitReg")]
     partial class RabbitReg
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace RabbitRegister.Migrations
 
                     b.HasKey("BreederRegNo");
 
-                    b.ToTable("Breeder");
+                    b.ToTable("Breeders");
                 });
 
             modelBuilder.Entity("RabbitRegister.Model.Order", b =>

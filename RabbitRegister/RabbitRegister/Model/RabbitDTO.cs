@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RabbitRegister.Model
 {
@@ -10,18 +11,23 @@ namespace RabbitRegister.Model
     /// </summary>
     public class RabbitDTO
     {
+        [Display(Name = "Kanin-ID")]
         [Required(ErrorMessage = "Din kanins skal have et ID")]   // WIP: Vi får ikke denne fejlbesked
+        [Range(typeof(int), "1", "9999", ErrorMessage = "Kaninens ID skal være imellem {1} og 4 cifre")]
         public int RabbitRegNo { get; set; }
 
+        [Display(Name = "Avler-ID")]
         [RegularExpression(@"^\d{4}$", ErrorMessage = "Avler-nr, SKAL bestå af 4 tal!")]
         public int OriginRegNo { get; set; }
 
+
         [Display(Name = "Ejer (Avler-ID): ")]
-        public int Owner { get; set; }
+        public int? Owner { get; set; }
 
         [Display(Name = "Kælenavn: ")]
         [Required(ErrorMessage = "Kaninen skal have et navn"), MaxLength(20)]
         public string Name { get; set; }
+
 
         [Display(Name = "Race: ")]
         [Required(ErrorMessage = "Kaninen skal have en race"), MaxLength(20)]
@@ -51,6 +57,7 @@ namespace RabbitRegister.Model
         public Sex Sex { get; set; }
 
         [Display(Name = "Til salg? (Ja/Nej): ")]
+        //[Required(ErrorMessage = "Der skal oplyses om kaninen er til salg")]
         public IsForSale? IsForSale { get; set; }
 
         [Display(Name = "Egnet til avl? (beskrivelse): ")]
@@ -68,6 +75,27 @@ namespace RabbitRegister.Model
         [Display(Name = "Image (Billednavn + type)")]
         public string? ImageString { get; set; }
 
+        public RabbitDTO() { }
+
+        public RabbitDTO(int rabbitRegNo, int originRegNo, int? owner, string name, string race, string color, DateTime dateOfBirth, int? weight, float? rating, DeadOrAlive deadOrAlive, Sex sex, IsForSale? isForSale, string? suitableForBreeding, string? causeOfDeath, string? comments, string? imageString)
+        {
+            RabbitRegNo = rabbitRegNo;
+            OriginRegNo = originRegNo;
+            Owner = owner;
+            Name = name;
+            Race = race;
+            Color = color;
+            DateOfBirth = dateOfBirth;
+            Weight = weight;
+            Rating = rating;
+            DeadOrAlive = deadOrAlive;
+            Sex = sex;
+            IsForSale = isForSale;
+            SuitableForBreeding = suitableForBreeding;
+            CauseOfDeath = causeOfDeath;
+            Comments = comments;
+            ImageString = imageString;
+        }
 
         public bool Validate()
         {

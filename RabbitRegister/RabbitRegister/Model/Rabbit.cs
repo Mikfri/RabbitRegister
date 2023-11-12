@@ -31,7 +31,7 @@ namespace RabbitRegister.Model
         [Key]
         [Column(Order = 0)]
         [Display(Name = "Kanin-ID")]
-        [Required(ErrorMessage = "Din kanins skal have et ID")]   // WIP: Vi får ikke denne fejlbesked
+        [Required(ErrorMessage = "Din kanins skal have et ID")]
         [Range(typeof(int), "1", "9999", ErrorMessage = "Kaninens ID skal være imellem {1} og 4 cifre")]
         public int RabbitRegNo { get; set; }
 

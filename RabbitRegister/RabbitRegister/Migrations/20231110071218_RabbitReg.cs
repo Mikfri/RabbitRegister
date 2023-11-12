@@ -12,7 +12,7 @@ namespace RabbitRegister.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Breeder",
+                name: "Breeders",
                 columns: table => new
                 {
                     BreederRegNo = table.Column<int>(type: "int", nullable: false),
@@ -26,7 +26,7 @@ namespace RabbitRegister.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Breeder", x => x.BreederRegNo);
+                    table.PrimaryKey("PK_Breeders", x => x.BreederRegNo);
                 });
 
             migrationBuilder.CreateTable(
@@ -140,9 +140,9 @@ namespace RabbitRegister.Migrations
                 {
                     table.PrimaryKey("PK_Rabbits", x => new { x.RabbitRegNo, x.OriginRegNo });
                     table.ForeignKey(
-                        name: "FK_Rabbits_Breeder_Owner",
+                        name: "FK_Rabbits_Breeders_Owner",
                         column: x => x.Owner,
-                        principalTable: "Breeder",
+                        principalTable: "Breeders",
                         principalColumn: "BreederRegNo");
                 });
 
@@ -202,7 +202,7 @@ namespace RabbitRegister.Migrations
                 name: "Order");
 
             migrationBuilder.DropTable(
-                name: "Breeder");
+                name: "Breeders");
         }
     }
 }
