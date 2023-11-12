@@ -31,10 +31,10 @@ namespace RabbitRegister.Pages.Main.Rabbit
                 return NotFound();
             }
 
-            //if (User.Identity.Name != existingRabbit.Owner.ToString())
-            //{
-            //    return Forbid();
-            //}
+            if (User.Identity.Name != existingRabbit.Owner.ToString())
+            {
+                return Forbid();
+            }
 
             // Kopier data fra eksisterende Rabbit til RabbitDTO
             RabbitDTO = new RabbitDTO

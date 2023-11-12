@@ -25,20 +25,20 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-25">
-                <label asp-for="@Model.RabbitDTO.RabbitRegNo" class="control-label"></label>
-            </div>
-            <div class="col-25">
-                <input asp-for="@Model.RabbitDTO.RabbitRegNo" class="form-control" readonly="@true" placeholder="Venstre-øre ID" />
-                <span asp-validation-for="@Model.RabbitDTO.RabbitRegNo" class="text-danger"></span>
-            </div>
+        <div class="row">            
             <div class="col-25">
                 <label asp-for="@Model.RabbitDTO.OriginRegNo" class="control-label"></label>
             </div>
             <div class="col-25">
                 <input asp-for="@Model.RabbitDTO.OriginRegNo" class="form-control" readonly="@true" placeholder="Højre-øre ID" />
                 <span asp-validation-for="@Model.RabbitDTO.OriginRegNo" class="text-danger"></span>
+            </div>
+            <div class="col-25">
+                <label asp-for="@Model.RabbitDTO.RabbitRegNo" class="control-label"></label>
+            </div>
+            <div class="col-25">
+                <input asp-for="@Model.RabbitDTO.RabbitRegNo" class="form-control" readonly="@true" placeholder="Venstre-øre ID" />
+                <span asp-validation-for="@Model.RabbitDTO.RabbitRegNo" class="text-danger"></span>
             </div>
         </div>
 
