@@ -19,10 +19,27 @@ namespace RabbitRegister.EFDbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Rabbit>()
             .HasKey(r => new { r.RabbitRegNo, r.OriginRegNo });
+
+            //modelBuilder.Entity<Rabbit>()
+            //    .HasOne(r => r.Breeder)
+            //    .WithMany(b => b.Rabbits)  
+            //    .HasForeignKey(r => new { r.Owner });  
+
+
             modelBuilder.Entity<OrderLine>()
             .HasKey(o => new { o.OrderLineId, o.OrderId });
+
+
+            //modelBuilder.Entity<Trimm>()
+            //.HasKey(t => t.Id);  // Dette angiver primærnøglen for Trimming
+
+            //modelBuilder.Entity<Trimm>()
+            //    .HasOne(t => t.Rabbit)       // Dette angiver relationen til Rabbit
+            //    .WithMany(r => r.Trimms)   // En Rabbit kan have mange Trimmings
+            //    .HasForeignKey(t => new { t.RabbitRegNo, t.OriginRegNo });  // Angiver fremmednøgleforholdet
         }
 
         public DbSet<Wool> Wools { get; set; }
@@ -32,5 +49,7 @@ namespace RabbitRegister.EFDbContext
 		public DbSet<Yarn> Yarns { get; set; }
 		public DbSet<Rabbit> Rabbits { get; set; }
 		public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<Trimm> Trimms { get; set; }
+
     }
 }

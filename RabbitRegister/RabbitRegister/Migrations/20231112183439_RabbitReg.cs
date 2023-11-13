@@ -169,6 +169,33 @@ namespace RabbitRegister.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Trimms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RabbitRegNo = table.Column<int>(type: "int", nullable: false),
+                    OriginRegNo = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeUsed = table.Column<int>(type: "int", nullable: true),
+                    HairLengthByDayNinety = table.Column<float>(type: "real", nullable: true),
+                    WoolDensity = table.Column<float>(type: "real", nullable: true),
+                    FirstSortmentWeight = table.Column<int>(type: "int", nullable: false),
+                    SecondSortmentWeight = table.Column<int>(type: "int", nullable: false),
+                    DisposableWoolWeight = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trimms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trimms_Rabbits_RabbitRegNo_OriginRegNo",
+                        columns: x => new { x.RabbitRegNo, x.OriginRegNo },
+                        principalTable: "Rabbits",
+                        principalColumns: new[] { "RabbitRegNo", "OriginRegNo" },
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_OrderLines_OrderId",
                 table: "OrderLines",
@@ -178,6 +205,11 @@ namespace RabbitRegister.Migrations
                 name: "IX_Rabbits_Owner",
                 table: "Rabbits",
                 column: "Owner");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trimms_RabbitRegNo_OriginRegNo",
+                table: "Trimms",
+                columns: new[] { "RabbitRegNo", "OriginRegNo" });
         }
 
         /// <inheritdoc />
@@ -187,10 +219,10 @@ namespace RabbitRegister.Migrations
                 name: "OrderLines");
 
             migrationBuilder.DropTable(
-                name: "Rabbits");
+                name: "Trimmings");
 
             migrationBuilder.DropTable(
-                name: "Trimmings");
+                name: "Trimms");
 
             migrationBuilder.DropTable(
                 name: "Wools");
@@ -200,6 +232,9 @@ namespace RabbitRegister.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Rabbits");
 
             migrationBuilder.DropTable(
                 name: "Breeders");

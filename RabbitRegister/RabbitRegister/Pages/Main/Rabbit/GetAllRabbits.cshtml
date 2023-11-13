@@ -18,16 +18,14 @@
         <h4 class="w3-bar-item"><b>Filtre</b></h4>
         <!-- Søgefeldt -->
         <form method="post" class="form-inline mb-3">
-@*            <input type="hidden" name="breederRegNo" value="@Model.BreederRegNo" />
-*@            <div class="input-group">
+               <div class="input-group">
                 <input asp-for="SearchString" class="form-control" placeholder="Kælenavn" />
                 <input type="submit" asp-page-handler="SearchByName" value="Søg" class="btn btn-primary" />
             </div>
         </form>
         <!-- Rating filter input fields -->
         <form method="post" class="form-inline mb-3">
-@*            <input type="hidden" name="breederRegNo" value="@Model.BreederRegNo" />
-*@            <div class="input-group">
+                <div class="input-group">
                 <input asp-for="MinRating" class="form-control" value="" placeholder="Min" min="0" max="100" />
                 <input asp-for="MaxRating" class="form-control" value="" placeholder="Max" min="0" max="100" />
                 <input type="submit" asp-page-handler="RatingFilter" value="Rating" class="btn btn-primary" />

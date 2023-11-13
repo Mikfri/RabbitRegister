@@ -199,6 +199,48 @@ namespace RabbitRegister.Migrations
                     b.ToTable("Rabbits");
                 });
 
+            modelBuilder.Entity("RabbitRegister.Model.Trimm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DisposableWoolWeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirstSortmentWeight")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("HairLengthByDayNinety")
+                        .HasColumnType("real");
+
+                    b.Property<int>("OriginRegNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RabbitRegNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SecondSortmentWeight")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimeUsed")
+                        .HasColumnType("int");
+
+                    b.Property<float?>("WoolDensity")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RabbitRegNo", "OriginRegNo");
+
+                    b.ToTable("Trimms");
+                });
+
             modelBuilder.Entity("RabbitRegister.Model.Trimming", b =>
                 {
                     b.Property<int>("TrimmingId")
@@ -364,9 +406,25 @@ namespace RabbitRegister.Migrations
                     b.Navigation("Breeder");
                 });
 
+            modelBuilder.Entity("RabbitRegister.Model.Trimm", b =>
+                {
+                    b.HasOne("RabbitRegister.Model.Rabbit", "Rabbit")
+                        .WithMany("Trimms")
+                        .HasForeignKey("RabbitRegNo", "OriginRegNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rabbit");
+                });
+
             modelBuilder.Entity("RabbitRegister.Model.Breeder", b =>
                 {
                     b.Navigation("Rabbits");
+                });
+
+            modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
+                {
+                    b.Navigation("Trimms");
                 });
 #pragma warning restore 612, 618
         }

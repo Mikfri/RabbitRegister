@@ -98,9 +98,12 @@ namespace RabbitRegister.Model
         [Display(Name = "Image (Billednavn + type)")]
         public string? ImageString { get; set; }
 
+        public ICollection<Trimm> Trimms { get; set; }
+
+
         public Rabbit() { }
 
-        public Rabbit(int rabbitRegNo, int originRegNo, int owner, string name, string race, string color, Sex sex, DateTime dateOfBirth, int weight, float? rating, DeadOrAlive deadOrAlive, IsForSale isForSale, string? suitableForBreeding, string? causeOfDeath, string? imageString)
+        public Rabbit(int rabbitRegNo, int originRegNo, int owner, string name, string race, string color, Sex sex, DateTime dateOfBirth, int? weight, float? rating, DeadOrAlive deadOrAlive, IsForSale isForSale, string? suitableForBreeding, string? causeOfDeath, string? imageString)
         {
             RabbitRegNo = rabbitRegNo;
             OriginRegNo = originRegNo;

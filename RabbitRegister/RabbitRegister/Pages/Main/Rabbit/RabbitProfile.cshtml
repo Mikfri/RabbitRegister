@@ -13,25 +13,11 @@
     <div class="min-vh-100">
         <br><br></br>
         <h2 class="text-center">Profil:</h2>
-        <br />
 
+        <br>
         <div class="w3-button w3-light-blue w3-text-white w3-hover-pale-blue w3-round-large w3-ripple" type="button" onclick="history.go(-1)">Tilbage</div>
-
-        @if (Model.Rabbit != null)
-        {
-            <div class="d-flex flex-row justify-content-end" style="margin-bottom: 5px; margin-top: 0px;">
-                <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
-                    <i class="fa fa-edit"></i>
-                </a>
-                <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </div>
-        }
-
-        <br />
-
-        <div class="rabbit-profile row">
+        <br>
+        <div class="rabbit-profile row mt-2">
             <div class="@*col-sm-4*@ rabbit-profile-left">
                 <div style="display:flex; flex-direction:column; align-items:center;">
 
@@ -48,8 +34,19 @@
                     <h5>Højre øre-ID: @Model.Rabbit?.OriginRegNo</h5>
                 </div>
                 <div>
+                    @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
+                    {
+                        <div class="d-flex flex-row justify-content-end" style="margin-bottom: 5px; margin-top: 0px;">
+                            <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    }
                     <p>
-                        @if (Model.Rabbit != null && User.Identity != null)
+                        @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
                         {
                             <button class="btn-primary" value="Klip Kanin" onclick="window.location.href='/Main/Trimming/CreateTrimming?Owner=@User.Identity.Name&RabbitRegNo=@Model.Rabbit.RabbitRegNo&OriginRegNo=@Model.Rabbit.OriginRegNo'"> Klip Kanin </button>
                             <button class="btn-primary" value="Klippe Historik" onclick="window.location.href='/Main/Trimming/GetAllTrimming?RabbitRegNo=@Model.Rabbit.RabbitRegNo&OriginRegNo=@Model.Rabbit.OriginRegNo'"> Klippe Historik</button>
@@ -58,57 +55,90 @@
                 </div>
             </div>
 
-            <div class="col-sm-8 rabbit-profile-right">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Navn:</th>
-                        <td>@Model.Rabbit?.Name</td>
-                    </tr>
-                    <tr>
-                        <th>Race:</th>
-                        <td>@Model.Rabbit?.Race</td>
-                    </tr>
-                    <tr>
-                        <th>Farve:</th>
-                        <td>@Model.Rabbit?.Color</td>
-                    </tr>
-                    <tr>
-                        <th>Køn:</th>
-                        <td>@Model.Rabbit?.Sex</td>
-                    </tr>
-                    <tr>
-                        <th>Født:</th>
-                        <td>@Model.Rabbit?.DateOfBirth</td>
-                    </tr>
-                    <tr>
-                        <th>Vægt:</th>
-                        <td>@Model.Rabbit?.Weight</td>
-                    </tr>
-                    <tr>
-                        <th>Præmiepoint:</th>
-                        <td>@Model.Rabbit?.Rating</td>
-                    </tr>
-                    <tr>
-                        <th>Status:</th>
-                        <td>@Model.Rabbit?.DeadOrAlive</td>
-                    </tr>
-                    <tr>
-                        <th>Til salg?:</th>
-                        <td>@Model.Rabbit?.IsForSale</td>
-                    </tr>
-                    <tr>
-                        <th>Egnet til avl?:</th>
-                        <td>@Model.Rabbit?.SuitableForBreeding</td>
-                    </tr>
-                    <tr>
-                        <th>Døds-årsag:</th>
-                        <td>@Model.Rabbit?.CauseOfDeath</td>
-                    </tr>
-                    <tr>
-                        <th>Yderlige kommentar:</th>
-                        <td>@Model.Rabbit?.Comments</td>
-                    </tr>
-                </table>
+            <div class="container rabbit-profile-right">
+                <br>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#profile">Profil </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#trimming">Klip </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#menu2">Menu 2</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="profile" class="container tab-pane active">
+                        <br>
+                        <h3>Profil</h3>
+                        <div class="rabbit-profile-right">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Navn:</th>
+                                    <td>@Model.Rabbit?.Name</td>
+                                </tr>
+                                <tr>
+                                    <th>Race:</th>
+                                    <td>@Model.Rabbit?.Race</td>
+                                </tr>
+                                <tr>
+                                    <th>Farve:</th>
+                                    <td>@Model.Rabbit?.Color</td>
+                                </tr>
+                                <tr>
+                                    <th>Køn:</th>
+                                    <td>@Model.Rabbit?.Sex</td>
+                                </tr>
+                                <tr>
+                                    <th>Født:</th>
+                                    <td>@Model.Rabbit?.DateOfBirth</td>
+                                </tr>
+                                <tr>
+                                    <th>Vægt:</th>
+                                    <td>@Model.Rabbit?.Weight</td>
+                                </tr>
+                                <tr>
+                                    <th>Præmiepoint:</th>
+                                    <td>@Model.Rabbit?.Rating</td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>@Model.Rabbit?.DeadOrAlive</td>
+                                </tr>
+                                <tr>
+                                    <th>Til salg?:</th>
+                                    <td>@Model.Rabbit?.IsForSale</td>
+                                </tr>
+                                <tr>
+                                    <th>Egnet til avl?:</th>
+                                    <td>@Model.Rabbit?.SuitableForBreeding</td>
+                                </tr>
+                                <tr>
+                                    <th>Døds-årsag:</th>
+                                    <td>@Model.Rabbit?.CauseOfDeath</td>
+                                </tr>
+                                <tr>
+                                    <th>Yderlige kommentar:</th>
+                                    <td>@Model.Rabbit?.Comments</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="trimming" class="container tab-pane fade">
+                        <br>
+                        <h3>Klippehistorik</h3>
+                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                    <div id="menu2" class="container tab-pane fade">
+                        <br>
+                        <h3>Menu 2</h3>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

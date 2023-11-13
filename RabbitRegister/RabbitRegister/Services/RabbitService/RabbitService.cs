@@ -32,10 +32,7 @@ namespace RabbitRegister.Services.RabbitService
             //    _dbGenericService.AddObjectAsync(rabbit).Wait();
             //}
         }
-        public RabbitService()
-        {
-
-        }
+        public RabbitService() {  }
 
         /// <summary>
         /// Tilføjer et kanin objekt til den lokale liste: _rabbits med dens tilhørende avler.
@@ -47,13 +44,13 @@ namespace RabbitRegister.Services.RabbitService
         /// <param name="rabbit">Kanin objektet som tilføjes til listen _rabbits OG tilføjes til DB via dbGenericService</param>
         /// <param name="breeder">Avler objektet, som tilhører kaninen</param>
         /// <returns>En Task, der repræsenterer asynkron udførelse af operationen</returns>
-        public async Task AddRabbitAsync(Rabbit rabbit, Breeder breeder)  //Denne add metode spørger efter Rabbit Breeder propertien -.-' 
-        {
-            _rabbits.Add(rabbit);
-            rabbit.Breeder = breeder;
+        //public async Task AddRabbitAsync(Rabbit rabbit, Breeder breeder)  //Denne add metode spørger efter Rabbit Breeder propertien -.-' 
+        //{
+        //    _rabbits.Add(rabbit);
+        //    rabbit.Breeder = breeder;
 
-            await _dbGenericService.AddObjectAsync(rabbit);
-        }
+        //    await _dbGenericService.AddObjectAsync(rabbit);
+        //}
 
 
 
@@ -78,8 +75,6 @@ namespace RabbitRegister.Services.RabbitService
             newRabbit.Sex = dto.Sex;
             newRabbit.IsForSale = dto.IsForSale;
             newRabbit.ImageString = dto.ImageString;
-
-            //newRabbit.Breeder = breeder;
             
             _rabbits.Add(newRabbit);
             await _dbGenericService.AddObjectAsync(newRabbit);
@@ -204,6 +199,7 @@ namespace RabbitRegister.Services.RabbitService
             if (rabbitToBeDeleted != null)
             {
                 _rabbits.Remove(rabbitToBeDeleted);
+                //breeder.Rabbits //Vi skal have sørget for kaninen også fjernes fra breederens ICollectionRabbits
                 await _dbGenericService.DeleteObjectAsync(rabbitToBeDeleted);
             }
 
