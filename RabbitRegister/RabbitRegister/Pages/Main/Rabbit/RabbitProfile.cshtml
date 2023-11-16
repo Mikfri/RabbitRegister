@@ -33,18 +33,7 @@
                     <h5>Venstre øre-ID: @Model.Rabbit?.RabbitRegNo</h5>
                     <h5>Højre øre-ID: @Model.Rabbit?.OriginRegNo</h5>
                 </div>
-                <div>
-                    @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
-                    {
-                        <div class="d-flex flex-row justify-content-end" style="margin-bottom: 5px; margin-top: 0px;">
-                            <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </div>
-                    }
+                <div>                    
                     <p>
                         @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
                         {
@@ -70,10 +59,21 @@
                     </li>
                 </ul>
 
-                <!-- Tab panes -->
+                <!-- Rabbit properties -->
                 <div class="tab-content">
                     <div id="profile" class="container tab-pane active">
                         <br>
+                        @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
+                        {
+                            <div class="d-flex flex-row justify-content-end">
+                                <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo" asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        }
                         <h3>Profil</h3>
                         <div class="rabbit-profile-right">
                             <table class="table table-striped">
@@ -128,11 +128,73 @@
                             </table>
                         </div>
                     </div>
+                    <!-- Trimm properties List -->
                     <div id="trimming" class="container tab-pane fade">
                         <br>
+                        <div>
+                            <br>
+                            <a class="w3-button w3-ripple w3-green w3-hover-light-green w3-hover-text-white w3-round-large"
+                               asp-page="/Main/Trimm/CreateTrimm"
+                               asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo"
+                               asp-route-originRegNo="@Model.Rabbit.OriginRegNo"> Opret Klip
+                            </a>
+                        </div>
                         <h3>Klippehistorik</h3>
-                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="container-all">
+                            <table class="table table-bordered table-hover table-striped table-opacity" width="100%">
+                                <thead>
+                                    <tr>
+                                        @*<th>Klip ID</th>
+                                        <th>Højreøre-ID</th>
+                                        <th>Venstreøre-ID</th>*@
+                                        <th>Dato</th>
+                                        <th>Tid (min)</th>
+                                        <th>Hår dag 90</th>
+                                        <th>Uld tæthed</th>
+                                        <th>1. Sortering</th>
+                                        <th>2. Sortering</th>
+                                        <th>Kasseret uld</th>
+                                        <th>Handlinger</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.TrimmList != null && Model.TrimmList.Any())
+                                    {
+                                        @foreach (var trimm in Model.TrimmList)
+                                        {
+                                            <tr>
+                                                @*<td>@trimm.Id</td>
+                                                <td>@trimm.RabbitRegNo</td>
+                                                <td>@trimm.OriginRegNo</td>*@
+                                                <td>@trimm.Date.ToString("dd-MM-yyyy")</td>
+                                                <td>@trimm.TimeUsed</td>
+                                                <td>@trimm.HairLengthByDayNinety</td>
+                                                <td>@trimm.WoolDensity</td>
+                                                <td>@trimm.FirstSortmentWeight</td>
+                                                <td>@trimm.SecondSortmentWeight</td>
+                                                <td>@trimm.DisposableWoolWeight</td>
+                                                @*<td>
+                                                    <a class="btn btn-primary btn-sm" type="button" title="Opdater" asp-route-Owner="@User.Identity.Name" asp-page="EditTrimming" asp-route-id="@trimm.TrimmingId">
+                                                        <i class="fa fa-edit"></i> Opdater
+                                                    </a>
+                                                    <a class="btn btn-danger btn-sm" type="button" title="Slet" asp-route-Owner="@User.Identity.Name" asp-page="DeleteTrimming" asp-route-id="@trimm.TrimmingId">
+                                                        <i class="fa fa-trash"></i> Slet
+                                                    </a>
+                                                </td>*@
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="11">Ingen klippehistorik tilgængelig.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                     <div id="menu2" class="container tab-pane fade">
                         <br>
                         <h3>Menu 2</h3>

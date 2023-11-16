@@ -11,6 +11,7 @@ using RabbitRegister.Services.BreederService;
 using Microsoft.AspNetCore.Authorization;
 using RabbitRegister.Services.Store;
 using Microsoft.AspNetCore.Identity;
+using RabbitRegister.Services.TrimmService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddSingleton<IRabbitService, RabbitService>();
 builder.Services.AddSingleton<IProductService, ProductService>();
 builder.Services.AddSingleton<IBreederService, BreederService>();
 builder.Services.AddSingleton<ITrimmingService, TrimmingService>();
+builder.Services.AddSingleton<ITrimmService, TrimmService>();
 builder.Services.AddScoped<PasswordHasher<string>>();
 //We are using Singleton because Transient creates a new instance of our lists
 //when navigationg to other pages in the same session, and it need to stay
@@ -33,6 +35,7 @@ builder.Services.AddTransient<DbGenericService<Order>, DbGenericService<Order>>(
 builder.Services.AddTransient<DbGenericService<Rabbit>, DbGenericService<Rabbit>>();
 builder.Services.AddTransient<DbGenericService<Breeder>, DbGenericService<Breeder>>();
 builder.Services.AddTransient<DbGenericService<Trimming>, DbGenericService<Trimming>>();
+builder.Services.AddTransient<DbGenericService<Trimm>, DbGenericService<Trimm>>();
 builder.Services.AddTransient<DbGenericService<OrderLine>, DbGenericService<OrderLine>>();
 /// This lambda determines whether user consent for non-essential cookies is needed for a given request. options.CheckConsentNeeded = context => true;
 builder.Services.Configure<CookiePolicyOptions>(options =>

@@ -1,4 +1,5 @@
-﻿using RabbitRegister.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using RabbitRegister.Model;
 using RabbitRegister.Services.RabbitService;
 
 namespace RabbitRegister.Services.TrimmService
@@ -13,33 +14,34 @@ namespace RabbitRegister.Services.TrimmService
         public TrimmService(DbGenericService<Trimm> dbGenericService)
         {
             _dbGenericService = dbGenericService;
+            _trimmsList = _dbGenericService.GetObjectsAsync().Result.ToList();
         }
 
-        public TrimmService() { }
+        //public TrimmService() { }
 
         public List<Trimm> GetAllTrimmsByRabbit(int rabbitRegNo, int originRegNo)
         {
             return _trimmsList.Where(trimming => trimming.RabbitRegNo == rabbitRegNo && trimming.OriginRegNo == originRegNo).ToList();
         }
 
-        public Trimm GetTrimm(int trimmId, int rabbitRegNo, int originRegNo)
+        public Trimm GetTrimm(int id, int rabbitRegNo, int originRegNo)
         {
-            return _trimmsList.Find(t => t.Id == trimmId && t.RabbitRegNo == rabbitRegNo && t.OriginRegNo == originRegNo);
+            return _trimmsList.Find(t => t.Id == id && t.RabbitRegNo == rabbitRegNo && t.OriginRegNo == originRegNo);
         }
 
-        public async Task AddTrimmAsync(TrimmDTO dto, Rabbit rabbit)
+        public async Task AddTrimmAsync(TrimmDTO trimmDTO, Rabbit rabbit)
         {
             Trimm newTrimm = new Trimm();
 
-            newTrimm.RabbitRegNo = dto.RabbitRegNo;
-            newTrimm.OriginRegNo = dto.OriginRegNo;
-            newTrimm.Date = dto.Date;
-            newTrimm.TimeUsed = dto.TimeUsed;
-            newTrimm.HairLengthByDayNinety = dto.HairLengthByDayNinety;
-            newTrimm.WoolDensity = dto.WoolDensity;
-            newTrimm.FirstSortmentWeight = dto.FirstSortmentWeight;
-            newTrimm.SecondSortmentWeight = dto.SecondSortmentWeight;
-            newTrimm.DisposableWoolWeight = dto.DisposableWoolWeight;
+            newTrimm.RabbitRegNo = trimmDTO.RabbitRegNo;
+            newTrimm.OriginRegNo = trimmDTO.OriginRegNo;
+            newTrimm.Date = trimmDTO.Date;
+            newTrimm.TimeUsed = trimmDTO.TimeUsed;
+            newTrimm.HairLengthByDayNinety = trimmDTO.HairLengthByDayNinety;
+            newTrimm.WoolDensity = trimmDTO.WoolDensity;
+            newTrimm.FirstSortmentWeight = trimmDTO.FirstSortmentWeight;
+            newTrimm.SecondSortmentWeight = trimmDTO.SecondSortmentWeight;
+            newTrimm.DisposableWoolWeight = trimmDTO.DisposableWoolWeight;
 
             _trimmsList.Add(newTrimm);
             await _dbGenericService.AddObjectAsync(newTrimm);
@@ -51,6 +53,8 @@ namespace RabbitRegister.Services.TrimmService
 
             rabbit.Trimms.Add(newTrimm);
         }
+
+        
 
         public async Task UpdateTrimmAsync(TrimmDTO trimmDTO, int trimmId, int rabbitRegNo, int originRegNo)
         {
@@ -81,5 +85,38 @@ namespace RabbitRegister.Services.TrimmService
                 await _dbGenericService.DeleteObjectAsync(trimm);
             }
         }
+
+        //---: NEXT ID IDÉ FOR TRIMM TABLE :---
+
+        //public async Task<int> GetNextIdForRabbitAndOriginAsync(int rabbitRegNo, int originRegNo)
+        //{
+        //    var existingTrimm = await ItemdbContext.Trimms
+        //        .FirstOrDefaultAsync(t => t.RabbitRegNo == rabbitRegNo && t.OriginRegNo == originRegNo);
+
+        //    if (existingTrimm == null)
+        //    {
+        //        // If no existing Trimm for the given combination, assign a new Id
+        //        return await GetNextIdAsync();
+        //    }
+        //    else
+        //    {
+        //        // If a Trimm exists for the given combination, return its Id
+        //        return existingTrimm.Id;
+        //    }
+        //}
+
+        //private async Task<int> GetNextIdAsync()
+        //{
+        //    // Logic to retrieve the next available Id
+        //    // You might use your own logic here to determine the next available Id
+        //    // Perhaps by querying the existing maximum Id and incrementing it
+        //    // Or by keeping track of assigned Ids for each combination elsewhere
+        //    // This could vary based on your database schema and business logic
+        //    // For demonstration, here's a basic example:
+
+        //    var maxId = await _dbContext.Trimms.MaxAsync(t => (int?)t.Id);
+        //    return maxId.HasValue ? maxId.Value + 1 : 1;
+        //}
+
     }
 }

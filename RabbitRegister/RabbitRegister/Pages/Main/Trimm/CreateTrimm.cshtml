@@ -1,0 +1,121 @@
+﻿@page "{rabbitRegNo:int}/{originRegNo:int}"
+@model RabbitRegister.Pages.Main.Trimm.CreateTrimmModel
+@{
+}
+<link rel="stylesheet" href="/css/responsiveForm.css" />
+
+<br>
+<br>
+<br>
+
+<body>
+    <div class="create-container">
+        <form method="post">
+            <!-- Ved oprettelse af en kanin sættes Owner propertien til den avleren som er logget på. Read-only, så man ikke kan ændre den -->
+            
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.OriginRegNo" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.OriginRegNo" class="form-control" readonly="@true" placeholder="Højre-øre ID" />
+                    <span asp-validation-for="@Model.trimmCreateDTO.OriginRegNo" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.RabbitRegNo" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.RabbitRegNo" class="form-control" readonly="@true" placeholder="Venstre-øre ID" />
+                    <span asp-validation-for="@Model.trimmCreateDTO.RabbitRegNo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.Date" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.Date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="@Model.trimmCreateDTO.Date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.TimeUsed" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.TimeUsed" class="form-control" value="" placeholder="Tid/minutter" />
+                    <span asp-validation-for="@Model.trimmCreateDTO.TimeUsed" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.HairLengthByDayNinety" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.HairLengthByDayNinety" class="form-control" value="" placeholder="Hårlængde cm" />
+                    <span asp-validation-for="@Model.trimmCreateDTO.HairLengthByDayNinety" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.FirstSortmentWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.FirstSortmentWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.trimmCreateDTO.FirstSortmentWeight" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.SecondSortmentWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.SecondSortmentWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.trimmCreateDTO.SecondSortmentWeight" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.DisposableWoolWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.DisposableWoolWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.trimmCreateDTO.DisposableWoolWeight" class="text-danger"></span>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.trimmCreateDTO.WoolDensity" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.trimmCreateDTO.WoolDensity" class="form-control" value="" placeholder="Point " />
+                    <span asp-validation-for="@Model.trimmCreateDTO.WoolDensity" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-75">
+                    <input type="submit" value="Opret" class="btn btn-success" />
+                    <a href="/Main/Rabbit/GetAllRabbits" class="btn btn-warning text-white">Fortryd</a>
+                </div>
+            </div>
+
+        </form>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach (var key in ViewData.ModelState.Keys)
+                    {
+                        foreach (var error in ViewData.ModelState[key].Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</body>

@@ -39,5 +39,7 @@ namespace RabbitRegister.Model
         [Range(0, 1000, ErrorMessage = "Vægten skal være mellem 0 og 1000g")]
         public int DisposableWoolWeight { get; set; }
 
+        //public Rabbit Rabbit { get; set; }
+
     }
 }

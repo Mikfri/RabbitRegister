@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using RabbitRegister.Model;
-using static System.Net.Mime.MediaTypeNames;
-using System.Drawing;
-using System;
 
 namespace RabbitRegister.EFDbContext
 {
@@ -27,8 +23,7 @@ namespace RabbitRegister.EFDbContext
             //    .HasOne(r => r.Breeder)
             //    .WithMany(b => b.Rabbits)  
             //    .HasForeignKey(r => new { r.Owner });  
-
-
+                     
             modelBuilder.Entity<OrderLine>()
             .HasKey(o => new { o.OrderLineId, o.OrderId });
 

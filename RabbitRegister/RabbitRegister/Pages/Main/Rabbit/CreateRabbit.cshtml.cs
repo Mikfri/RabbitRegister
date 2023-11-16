@@ -74,10 +74,7 @@ namespace RabbitRegister.Pages.Main.Rabbit
             int breederRegNoAsInteger = int.Parse(User.Identity.Name);
             var breeder = _breederService.GetBreedByBreederRegNo(breederRegNoAsInteger);
 
-            //var breeder = await _breederService.GetBreederByNameAsync(User.Identity.Name);
-
             await _rabbitService.AddRabbitAsync(RabbitCreateDto, breeder);
-            //return RedirectToPage("GetAllRabbits", new { breederRegNo = User.Identity.Name });
             return RedirectToPage("GetAllRabbits");
         }
 

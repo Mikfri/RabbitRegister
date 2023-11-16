@@ -91,8 +91,8 @@ namespace RabbitRegister.Services.RabbitService
         /// <summary>
         /// Henter en kanin fra listen _rabbits via. LAMBDA og LINQ ud fra dens composite-key
         /// </summary>
-        /// <param name="id">Første nøgle-del for kaninens composite key(RabbitRegNo)</param>
-        /// <param name="OriginRegNo">Anden nøgle-del for kaninens composite key</param>
+        /// <param name="rabbitRegNo">Første nøgle-del for kaninens composite key(RabbitRegNo)</param>
+        /// <param name="originRegNo">Anden nøgle-del for kaninens composite key</param>
         /// <returns>Et kanin objekt</returns>
         public Rabbit GetRabbit(int rabbitRegNo, int originRegNo)
         {
