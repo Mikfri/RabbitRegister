@@ -33,7 +33,7 @@
                     <h5>Venstre øre-ID: @Model.Rabbit?.RabbitRegNo</h5>
                     <h5>Højre øre-ID: @Model.Rabbit?.OriginRegNo</h5>
                 </div>
-                <div>                    
+               @*  <div>                    
                     <p>
                         @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
                         {
@@ -41,7 +41,7 @@
                             <button class="btn-primary" value="Klippe Historik" onclick="window.location.href='/Main/Trimming/GetAllTrimming?RabbitRegNo=@Model.Rabbit.RabbitRegNo&OriginRegNo=@Model.Rabbit.OriginRegNo'"> Klippe Historik</button>
                         }
                     </p>
-                </div>
+                </div> *@
             </div>
 
             <div class="container rabbit-profile-right">
@@ -133,11 +133,15 @@
                         <br>
                         <div>
                             <br>
-                            <a class="w3-button w3-ripple w3-green w3-hover-light-green w3-hover-text-white w3-round-large"
-                               asp-page="/Main/Trimm/CreateTrimm"
-                               asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo"
-                               asp-route-originRegNo="@Model.Rabbit.OriginRegNo"> Opret Klip
-                            </a>
+                            @if (Model.Rabbit != null && Model.Rabbit.Owner.ToString() == User.Identity.Name)
+                            {
+                                <a class="w3-button w3-ripple w3-green w3-hover-light-green w3-hover-text-white w3-round-large"
+                                   asp-page="/Main/Trimm/CreateTrimm"
+                                   asp-route-rabbitRegNo="@Model.Rabbit.RabbitRegNo"
+                                   asp-route-originRegNo="@Model.Rabbit.OriginRegNo">
+                                    Opret Klip
+                                </a>
+                            }                            
                         </div>
                         <h3>Klippehistorik</h3>
                         <div class="container-all">
