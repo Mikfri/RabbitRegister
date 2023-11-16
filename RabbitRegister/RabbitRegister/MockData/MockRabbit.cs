@@ -226,27 +226,8 @@ namespace RabbitRegister.MockData
                 IsForSale.Nej,
                 null,
                 null,
-                null),
-
-            new Rabbit(
-                323,
-                5053,
-                5053,
-                "Dario",
-                "Satin-Angora",
-                "Beige",
-                Sex.Han,
-                new DateTime(2023, 12, 08),
-                null,
-                null,
-                DeadOrAlive.Levende,
-                IsForSale.Nej,
-                null,
-                null,
-                null),
+                null),         
         };
-
-
 
         public static List<Rabbit> GetMockRabbits()
         { return _rabbits; }

@@ -5,23 +5,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RabbitRegister.Model;
 using RabbitRegister.Services.BreederService;
 using RabbitRegister.Services.RabbitService;
+using RabbitRegister.Utilities;
 
 namespace RabbitRegister.Pages.Main.Rabbit
 {
     [Authorize(Policy = "BreederOnly")]
     public class CreateRabbitModel : PageModel
     {
-        private IRabbitService _rabbitService;
-        private IBreederService _breederService;
+        private readonly IRabbitService _rabbitService;
+        private readonly IBreederService _breederService;
+        private readonly ImageHelper _imageHelper;
 
-        public CreateRabbitModel(IRabbitService rabbitService, IBreederService breederService)
+
+        public CreateRabbitModel(IRabbitService rabbitService, IBreederService breederService, ImageHelper imagehelper)
         {
             _rabbitService = rabbitService;
             _breederService = breederService;
+            _imageHelper = imagehelper;
         }
 
         [BindProperty]
         public RabbitDTO RabbitCreateDto { get; set; } = new RabbitDTO();
+
+        [BindProperty]
+        public IFormFile ImageFile { get; set; }
 
         //public List<SelectListItem> BreederList { get; set; }
 
@@ -55,13 +62,6 @@ namespace RabbitRegister.Pages.Main.Rabbit
                 return Page();
             }
 
-            if (!RabbitCreateDto.Validate())
-            {
-                exceptionFound = true;
-                exceptionText = "Kaninrace og farve, er ikke en gyldig kombination";
-                return Page();
-            }
-
             // Nedenstående sikrer der ikke oprettes en fantom-kanin på "GetAllRabbits"
             var existingRabbit = _rabbitService.GetRabbit(RabbitCreateDto.RabbitRegNo, RabbitCreateDto.OriginRegNo);
             if (existingRabbit != null)
@@ -69,6 +69,18 @@ namespace RabbitRegister.Pages.Main.Rabbit
                 this.exceptionFound = true;
                 this.exceptionText = "En kanin med samme ID, findes allerede";
                 return Page();
+            }
+
+            if (!RabbitCreateDto.Validate())
+            {
+                exceptionFound = true;
+                exceptionText = "Kaninrace og farve, er ikke en gyldig kombination";
+                return Page();
+            }
+
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                RabbitCreateDto.ImagePath = await _imageHelper.SaveImageAsync(ImageFile);
             }
 
             int breederRegNoAsInteger = int.Parse(User.Identity.Name);

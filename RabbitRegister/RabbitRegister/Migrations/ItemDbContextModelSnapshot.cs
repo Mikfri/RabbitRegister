@@ -160,6 +160,9 @@ namespace RabbitRegister.Migrations
                     b.Property<int>("DeadOrAlive")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageString")
                         .HasColumnType("nvarchar(max)");
 

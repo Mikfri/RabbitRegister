@@ -12,7 +12,7 @@ using RabbitRegister.EFDbContext;
 namespace RabbitRegister.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    [Migration("20231116095219_RabbitReg")]
+    [Migration("20231116114529_RabbitReg")]
     partial class RabbitReg
     {
         /// <inheritdoc />
@@ -162,6 +162,9 @@ namespace RabbitRegister.Migrations
 
                     b.Property<int>("DeadOrAlive")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageString")
                         .HasColumnType("nvarchar(max)");

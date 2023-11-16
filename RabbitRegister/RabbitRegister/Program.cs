@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using RabbitRegister.Services.Store;
 using Microsoft.AspNetCore.Identity;
 using RabbitRegister.Services.TrimmService;
+using RabbitRegister.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<IBreederService, BreederService>();
 builder.Services.AddSingleton<ITrimmingService, TrimmingService>();
 builder.Services.AddSingleton<ITrimmService, TrimmService>();
 builder.Services.AddScoped<PasswordHasher<string>>();
+builder.Services.AddScoped<ImageHelper>();
 //We are using Singleton because Transient creates a new instance of our lists
 //when navigationg to other pages in the same session, and it need to stay
 //saved from the moment something is added on one page, and then transfers to other pages

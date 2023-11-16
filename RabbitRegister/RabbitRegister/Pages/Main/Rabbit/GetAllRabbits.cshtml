@@ -1,5 +1,6 @@
 ﻿@page
 @model RabbitRegister.Pages.Main.Rabbit.GetAllRabbitsModel
+@using System.IO
 @{
 }
 
@@ -91,14 +92,28 @@
                     <a class="click-card flex-item" asp-page="/Main/Rabbit/RabbitProfile" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo" asp-route-originRegNo="@Rabbit.OriginRegNo">
 
                         <div class="card">
-                            @if (Rabbit.ImageString == "/Images/Rabbits/" || Rabbit.ImageString == null)
+                            @* @if (Rabbit.ImagePath == null)
                             {
-                                <img class="card-image" src="\Images\NoImage.jpg">
+                                <img class="card-image" src="~/Images/NoImage.jpg">
                             }
                             else
                             {
+                                <img class="card-image" src="@Rabbit.ImagePath">
+
+                            } *@
+                            @if (Rabbit.ImageString == "/Images/Rabbits/" || Rabbit.ImageString == null && Rabbit.ImagePath == null)
+                            {
+                                <img class="card-image" src="\Images\NoImage.jpg">
+                            }
+                            else if (Rabbit.ImageString != null)
+                            {
                                 <img class="card-image" src="@Rabbit.ImageString">
                             }
+                            else if(Rabbit.ImagePath != null)
+                            {
+                                <img class="card-image" src="@Url.Content(Rabbit.ImagePath)">
+                            }
+
                             <div class="w3-container">
                                 <h6><b>@Rabbit.Name</b></h6>
                                 <p>V-øre ID: @Rabbit.RabbitRegNo</p>

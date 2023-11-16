@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 ﻿using RabbitRegister.MockData;
 using RabbitRegister.Model;
 using RabbitRegister.Services.BreederService;
+using RabbitRegister.Utilities;
 
 namespace RabbitRegister.Services.RabbitService
 {
@@ -35,26 +36,6 @@ namespace RabbitRegister.Services.RabbitService
         public RabbitService() {  }
 
         /// <summary>
-        /// Tilføjer et kanin objekt til den lokale liste: _rabbits med dens tilhørende avler.
-        /// Gemmer derefter kaninen i via. en DBGenericService metode.
-        /// 
-        /// "Async" muliggør en mere effektiv udnyttelse af systemressourcer. Tråden som kalder AddRabbitAsync,
-        /// behøver ikke at vente på operationen er fuldført, før den fortsætter med andre opgaver 
-        /// </summary>
-        /// <param name="rabbit">Kanin objektet som tilføjes til listen _rabbits OG tilføjes til DB via dbGenericService</param>
-        /// <param name="breeder">Avler objektet, som tilhører kaninen</param>
-        /// <returns>En Task, der repræsenterer asynkron udførelse af operationen</returns>
-        //public async Task AddRabbitAsync(Rabbit rabbit, Breeder breeder)  //Denne add metode spørger efter Rabbit Breeder propertien -.-' 
-        //{
-        //    _rabbits.Add(rabbit);
-        //    rabbit.Breeder = breeder;
-
-        //    await _dbGenericService.AddObjectAsync(rabbit);
-        //}
-
-
-
-        /// <summary>
         /// Konvertere brugerens input til at passe med: class Rabbit 
         /// </summary>
         /// <param name="dto"></param>
@@ -74,7 +55,8 @@ namespace RabbitRegister.Services.RabbitService
             newRabbit.DeadOrAlive = dto.DeadOrAlive;
             newRabbit.Sex = dto.Sex;
             newRabbit.IsForSale = dto.IsForSale;
-            newRabbit.ImageString = dto.ImageString;
+            //newRabbit.ImageString = dto.ImageString;
+            newRabbit.ImagePath = dto.ImagePath;
             
             _rabbits.Add(newRabbit);
             await _dbGenericService.AddObjectAsync(newRabbit);
@@ -88,21 +70,12 @@ namespace RabbitRegister.Services.RabbitService
 
         }
 
-        /// <summary>
-        /// Henter en kanin fra listen _rabbits via. LAMBDA og LINQ ud fra dens composite-key
-        /// </summary>
-        /// <param name="rabbitRegNo">Første nøgle-del for kaninens composite key(RabbitRegNo)</param>
-        /// <param name="originRegNo">Anden nøgle-del for kaninens composite key</param>
-        /// <returns>Et kanin objekt</returns>
+    
         public Rabbit GetRabbit(int rabbitRegNo, int originRegNo)
         {
             return _rabbits.Find(r => r.RabbitRegNo == rabbitRegNo && r.OriginRegNo == originRegNo);
         }
 
-        /// <summary>
-        /// Finder alle kaniner som er i listen _rabbits
-        /// </summary>
-        /// <returns></returns>
         public List<Rabbit> GetAllRabbits()
         {
             return _rabbits.ToList();
@@ -198,6 +171,11 @@ namespace RabbitRegister.Services.RabbitService
 
             if (rabbitToBeDeleted != null)
             {
+                if (!string.IsNullOrEmpty(rabbitToBeDeleted.ImagePath))
+                {
+                    ImageHelper.DeleteImage(rabbitToBeDeleted.ImagePath);
+                }
+
                 _rabbits.Remove(rabbitToBeDeleted);
                 //breeder.Rabbits //Vi skal have sørget for kaninen også fjernes fra breederens ICollectionRabbits
                 await _dbGenericService.DeleteObjectAsync(rabbitToBeDeleted);
@@ -316,7 +294,17 @@ namespace RabbitRegister.Services.RabbitService
         /// <returns>En liste af avlerens ejede kaniner, som er levende</returns>
         public List<Rabbit> GetOwnedAliveRabbits(int breederRegNo)
         {
-            return _rabbits.Where(rabbit => rabbit.Owner == breederRegNo && rabbit.DeadOrAlive == DeadOrAlive.Levende).ToList();
+            var rabbits = _rabbits.Where(rabbit => rabbit.Owner == breederRegNo && rabbit.DeadOrAlive == DeadOrAlive.Levende).ToList();
+
+            foreach (var rabbit in rabbits)
+            {
+                if (!string.IsNullOrEmpty(rabbit.ImagePath) && !rabbit.ImagePath.StartsWith("/"))
+                {
+                    rabbit.ImagePath = Path.Combine("/", rabbit.ImagePath);
+                }
+            }
+
+            return rabbits;
         }
 
         /// <summary>

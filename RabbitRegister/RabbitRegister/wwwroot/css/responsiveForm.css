@@ -53,3 +53,12 @@ input[type=submit] {
     clear: both;
 }
 
+#uploadedImage {
+    margin-top: 30px;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+

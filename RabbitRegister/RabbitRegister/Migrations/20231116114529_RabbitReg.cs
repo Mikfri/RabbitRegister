@@ -134,7 +134,8 @@ namespace RabbitRegister.Migrations
                     SuitableForBreeding = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     CauseOfDeath = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
                     Comments = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    ImageString = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ImageString = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

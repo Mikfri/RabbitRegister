@@ -10,7 +10,7 @@
 
 <body>
     <div class="create-container">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <!-- Ved oprettelse af en kanin sættes Owner propertien til den avleren som er logget på. Read-only, så man ikke kan ændre den -->
             <div class="row">
                 <div class="col-25">
@@ -23,12 +23,12 @@
 
             <!-- DROPDOWN OWNER -->
             @*<div class="create-form">
-                <label asp-for="@Model.RabbitCreateDto.Owner" class="control-label">Nuværende ejer </label>
-                <select asp-for="@Model.RabbitCreateDto.Owner" asp-items="@Model.BreederList" class="form-control"></select>
-                <span asp-validation-for="@Model.RabbitCreateDto.Owner" class="text-danger"></span>
+            <label asp-for="@Model.RabbitCreateDto.Owner" class="control-label">Nuværende ejer </label>
+            <select asp-for="@Model.RabbitCreateDto.Owner" asp-items="@Model.BreederList" class="form-control"></select>
+            <span asp-validation-for="@Model.RabbitCreateDto.Owner" class="text-danger"></span>
             </div>*@
 
-            <div class="row">                
+            <div class="row">
                 <div class="col-25">
                     <label asp-for="@Model.RabbitCreateDto.OriginRegNo" class="control-label"></label>
                 </div>
@@ -142,15 +142,32 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-25">
-                    <label asp-for="@Model.RabbitCreateDto.ImageString" class="control-label">Billede</label>
+            
+            @if (!string.IsNullOrEmpty(Model.RabbitCreateDto.ImagePath))
+            {
+                <div>
+                    <img src="" id="uploadedImage" alt="Uploaded Image" style="display: none;" />
                 </div>
+            }
+
+            <div class="row">
                 <div class="col-75">
-                    <input asp-for="@Model.RabbitCreateDto.ImageString" value="/Images/Rabbits/" class="form-control" />
-                    <span asp-validation-for="@Model.RabbitCreateDto.ImageString" class="text-danger"></span>
+                    <input type="file" name="ImageFile" id="imageFileInput" onchange="displayImage(this)" />
+                    <img src="" id="uploadedImage" alt="Uploaded Image" style="display: none;" />
                 </div>
             </div>
+
+            <br></br>
+
+            @* <div class="row">
+            <div class="col-25">
+            <label asp-for="@Model.RabbitCreateDto.ImageString" class="control-label">Billede</label>
+            </div>
+            <div class="col-75">
+            <input asp-for="@Model.RabbitCreateDto.ImageString" value="/Images/Rabbits/" class="form-control" />
+            <span asp-validation-for="@Model.RabbitCreateDto.ImageString" class="text-danger"></span>
+            </div>
+            </div> *@
 
             <div class="row">
                 <div class="col-75">
@@ -158,6 +175,7 @@
                     <a href="/Main/Rabbit/GetAllRabbits" class="btn btn-warning text-white">Fortryd</a>
                 </div>
             </div>
+
         </form>
 
         @if (!ViewData.ModelState.IsValid)
@@ -209,47 +227,67 @@
                 updateColorDropdown();
             });
         </script>
+        <script>
+            function displayImage(input) {
+                var file = input.files[0];
+                var image = document.getElementById('uploadedImage');
+
+                if (file) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        image.src = e.target.result;
+                        image.style.display = 'block';
+                    }
+
+                    reader.readAsDataURL(file);
+                } else {
+                    image.src = '';
+                    image.style.display = 'none';
+                }
+            }
+        </script>
 
         <!-- ALTERNATIV SCRIPT FOR 3 DROPDOWNS (w3) -->
         @*<script>
-            var subjectObject = {
-                "Front-end": {
-                    "HTML": ["Links", "Images", "Tables", "Lists"],
-                    "CSS": ["Borders", "Margins", "Backgrounds", "Float"],
-                    "JavaScript": ["Variables", "Operators", "Functions", "Conditions"]
-                },
-                "Back-end": {
-                    "PHP": ["Variables", "Strings", "Arrays"],
-                    "SQL": ["SELECT", "UPDATE", "DELETE"]
-                }
-            }
-            window.onload = function () {
-                var subjectSel = document.getElementById("subject");
-                var topicSel = document.getElementById("topic");
-                var chapterSel = document.getElementById("chapter");
-                for (var x in subjectObject) {
-                    subjectSel.options[subjectSel.options.length] = new Option(x, x);
-                }
-                subjectSel.onchange = function () {
-                    //empty Chapters- and Topics- dropdowns
-                    chapterSel.length = 1;
-                    topicSel.length = 1;
-                    //display correct values
-                    for (var y in subjectObject[this.value]) {
-                        topicSel.options[topicSel.options.length] = new Option(y, y);
-                    }
-                }
-                topicSel.onchange = function () {
-                    //empty Chapters dropdown
-                    chapterSel.length = 1;
-                    //display correct values
-                    var z = subjectObject[subjectSel.value][this.value];
-                    for (var i = 0; i < z.length; i++) {
-                        chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
-                    }
-                }
-            }
-        </script>*@
+    var subjectObject = {
+    "Front-end": {
+    "HTML": ["Links", "Images", "Tables", "Lists"],
+    "CSS": ["Borders", "Margins", "Backgrounds", "Float"],
+    "JavaScript": ["Variables", "Operators", "Functions", "Conditions"]
+    },
+    "Back-end": {
+    "PHP": ["Variables", "Strings", "Arrays"],
+    "SQL": ["SELECT", "UPDATE", "DELETE"]
+    }
+    }
+    window.onload = function () {
+    var subjectSel = document.getElementById("subject");
+    var topicSel = document.getElementById("topic");
+    var chapterSel = document.getElementById("chapter");
+    for (var x in subjectObject) {
+    subjectSel.options[subjectSel.options.length] = new Option(x, x);
+    }
+    subjectSel.onchange = function () {
+    //empty Chapters- and Topics- dropdowns
+    chapterSel.length = 1;
+    topicSel.length = 1;
+    //display correct values
+    for (var y in subjectObject[this.value]) {
+    topicSel.options[topicSel.options.length] = new Option(y, y);
+    }
+    }
+    topicSel.onchange = function () {
+    //empty Chapters dropdown
+    chapterSel.length = 1;
+    //display correct values
+    var z = subjectObject[subjectSel.value][this.value];
+    for (var i = 0; i < z.length; i++) {
+    chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+    }
+    }
+    }
+    </script>*@
     }
 </body>
 

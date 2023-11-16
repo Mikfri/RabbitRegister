@@ -97,6 +97,8 @@ namespace RabbitRegister.Model
 
         [Display(Name = "Image (Billednavn + type)")]
         public string? ImageString { get; set; }
+        public string? ImagePath { get; set; } // eller byte[] ImageData { get; set; }
+
 
         public ICollection<Trimm> Trimms { get; set; }
 
