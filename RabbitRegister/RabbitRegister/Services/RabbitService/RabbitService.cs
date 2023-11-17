@@ -13,14 +13,7 @@ namespace RabbitRegister.Services.RabbitService
         private DbGenericService<Rabbit> _dbGenericService;
         private IBreederService _breederService;
 
-        /// <summary>
-        /// Initialisere hvorfra kaninere hentes..
-        /// 
-        /// Kaninerne kan hentes via DB eller MOCKDATA, alt efter hvilken kodeblok,
-        /// som kommenteres ud/ind.
-        /// </summary>
-        /// <param name="dbGenericService">Dependency injection</param>
-        /// <param name="breederService">Dependency injection</param>
+      
         public RabbitService(DbGenericService<Rabbit> dbGenericService, IBreederService breederService)
         {
             _breederService = breederService;
@@ -59,8 +52,7 @@ namespace RabbitRegister.Services.RabbitService
             newRabbit.ImagePath = dto.ImagePath;
             
             _rabbits.Add(newRabbit);
-            await _dbGenericService.AddObjectAsync(newRabbit);
-                    
+            await _dbGenericService.AddObjectAsync(newRabbit);                    
         }
 
     
@@ -81,11 +73,7 @@ namespace RabbitRegister.Services.RabbitService
             {
                 Rabbit existingRabbit = _rabbits.FirstOrDefault(r => r.RabbitRegNo == rabbitRegNo && r.OriginRegNo == originRegNo);
                 if (existingRabbit != null)
-                {
-                    if (!string.IsNullOrEmpty(existingRabbit.ImagePath))
-                    {
-                        ImageHelper.DeleteImage(existingRabbit.ImagePath);
-                    }
+                {                   
                     // Kopier data fra RabbitDTO til det eksisterende Rabbit-objekt
                     existingRabbit.Name = rabbitDTO.Name;
                     existingRabbit.Race = rabbitDTO.Race;
