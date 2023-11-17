@@ -60,18 +60,11 @@ namespace RabbitRegister.Services.RabbitService
             
             _rabbits.Add(newRabbit);
             await _dbGenericService.AddObjectAsync(newRabbit);
-
-            if (breeder.Rabbits == null)
-            {
-                breeder.Rabbits = new List<Rabbit>();
-            }
-
-            breeder.Rabbits.Add(newRabbit);
-
+                    
         }
 
     
-        public Rabbit GetRabbit(int rabbitRegNo, int originRegNo)
+        public Rabbit GetRabbit(int originRegNo,int rabbitRegNo)
         {
             return _rabbits.Find(r => r.RabbitRegNo == rabbitRegNo && r.OriginRegNo == originRegNo);
         }
@@ -80,48 +73,19 @@ namespace RabbitRegister.Services.RabbitService
         {
             return _rabbits.ToList();
             //return _dbGenericService.GetObjectsAsync().Result.ToList();
-        }
+        }      
 
-        /// <summary>
-        /// Opdaterer alle kaninens oplysninger, med udgangspunkt i et kanin objekt og dets komposite key.
-        /// </summary>
-        /// <param name="rabbit">Kaninen som opdateres</param>
-        /// <param name="rabbitRegNo">Første nøgle-del for kaninens composite key(RabbitRegNo)</param>
-        /// <param name="originRegNo">Anden nøgle-del for kaninens composite key</param>
-        /// <returns>Asynkron Task, der repræsenterer opdateringsoperationen</returns>
-        //public async Task UpdateRabbitAsync(Rabbit rabbit, int rabbitRegNo, int originRegNo)
-        //{
-        //    if (rabbit != null)
-        //    {
-        //        Rabbit existingRabbit = _rabbits.FirstOrDefault(r => r.RabbitRegNo == rabbitRegNo && r.OriginRegNo == originRegNo);
-        //        if (existingRabbit != null)
-        //        {
-        //            existingRabbit.Name = rabbit.Name;
-        //            existingRabbit.Race = rabbit.Race;
-        //            existingRabbit.Color = rabbit.Color;
-        //            existingRabbit.Sex = rabbit.Sex;
-        //            existingRabbit.DateOfBirth = rabbit.DateOfBirth;
-        //            existingRabbit.Weight = rabbit.Weight;
-        //            existingRabbit.Rating = rabbit.Rating;
-        //            existingRabbit.DeadOrAlive = rabbit.DeadOrAlive;
-        //            existingRabbit.IsForSale = rabbit.IsForSale;
-        //            existingRabbit.SuitableForBreeding = rabbit.SuitableForBreeding;
-        //            existingRabbit.CauseOfDeath = rabbit.CauseOfDeath;
-        //            existingRabbit.Comments = rabbit.Comments;
-        //            existingRabbit.ImageString = rabbit.ImageString;
-
-        //            await _dbGenericService.UpdateObjectAsync(existingRabbit);
-        //        }
-        //    }
-        //}
-
-        public async Task UpdateRabbitAsync(RabbitDTO rabbitDTO, int rabbitRegNo, int originRegNo)
+        public async Task UpdateRabbitAsync(RabbitDTO rabbitDTO, int originRegNo, int rabbitRegNo)
         {
             if (rabbitDTO != null)
             {
                 Rabbit existingRabbit = _rabbits.FirstOrDefault(r => r.RabbitRegNo == rabbitRegNo && r.OriginRegNo == originRegNo);
                 if (existingRabbit != null)
                 {
+                    if (!string.IsNullOrEmpty(existingRabbit.ImagePath))
+                    {
+                        ImageHelper.DeleteImage(existingRabbit.ImagePath);
+                    }
                     // Kopier data fra RabbitDTO til det eksisterende Rabbit-objekt
                     existingRabbit.Name = rabbitDTO.Name;
                     existingRabbit.Race = rabbitDTO.Race;
@@ -135,7 +99,7 @@ namespace RabbitRegister.Services.RabbitService
                     existingRabbit.SuitableForBreeding = rabbitDTO.SuitableForBreeding;
                     existingRabbit.CauseOfDeath = rabbitDTO.CauseOfDeath;
                     existingRabbit.Comments = rabbitDTO.Comments;
-                    existingRabbit.ImageString = rabbitDTO.ImageString;
+                    existingRabbit.ImagePath = rabbitDTO.ImagePath;
 
                     await _dbGenericService.UpdateObjectAsync(existingRabbit);
                 }
@@ -157,7 +121,7 @@ namespace RabbitRegister.Services.RabbitService
         /// <param name="rabbitRegNo">Første nøgle-del for kaninens composite key(RabbitRegNo)</param>
         /// <param name="originRegNo">Anden nøgle-del for kaninens composite key</param>
         /// <returns>Task, der repræsenterer sletningsoperationen</returns>
-        public async Task<Rabbit> DeleteRabbitAsync(int? rabbitRegNo, int? originRegNo)
+        public async Task<Rabbit> DeleteRabbitAsync(int? originRegNo, int? rabbitRegNo)
         {
             Rabbit rabbitToBeDeleted = null;
             foreach (Rabbit rabbit in _rabbits)
@@ -177,7 +141,6 @@ namespace RabbitRegister.Services.RabbitService
                 }
 
                 _rabbits.Remove(rabbitToBeDeleted);
-                //breeder.Rabbits //Vi skal have sørget for kaninen også fjernes fra breederens ICollectionRabbits
                 await _dbGenericService.DeleteObjectAsync(rabbitToBeDeleted);
             }
 
@@ -218,7 +181,7 @@ namespace RabbitRegister.Services.RabbitService
                 );
         }
 
-        public IEnumerable<Rabbit> SearchByRegNo(int? rabbitRegNo, int? originRegNo, int breederRegNo)
+        public IEnumerable<Rabbit> SearchByRegNo(int? originRegNo, int? rabbitRegNo, int breederRegNo)
         {
             var rabbitsWithConnections = GetAllRabbitsWithConnectionsToMe(breederRegNo);
 

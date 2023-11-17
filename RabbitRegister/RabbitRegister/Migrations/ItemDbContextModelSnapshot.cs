@@ -403,7 +403,7 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Breeder", "Breeder")
-                        .WithMany("Rabbits")
+                        .WithMany()
                         .HasForeignKey("Owner");
 
                     b.Navigation("Breeder");
@@ -412,22 +412,12 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Trimm", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Rabbit", "Rabbit")
-                        .WithMany("Trimms")
+                        .WithMany()
                         .HasForeignKey("RabbitRegNo", "OriginRegNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rabbit");
-                });
-
-            modelBuilder.Entity("RabbitRegister.Model.Breeder", b =>
-                {
-                    b.Navigation("Rabbits");
-                });
-
-            modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
-                {
-                    b.Navigation("Trimms");
                 });
 #pragma warning restore 612, 618
         }

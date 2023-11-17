@@ -4,10 +4,10 @@ namespace RabbitRegister.Services.TrimmService
 {
     public interface ITrimmService
     {
-        List<Trimm> GetAllTrimmsByRabbit(int rabbitRegNo, int originRegNo);
-        Trimm GetTrimm(int trimmId, int rabbitRegNo, int originRegNo);
+        List<Trimm> GetAllTrimmsByRabbit(int originRegNo, int rabbitRegNo);
+        Trimm GetTrimm(int id, int originRegNo, int rabbitRegNo);
         Task AddTrimmAsync(TrimmDTO trimmDTO, Rabbit rabbit);
-        Task UpdateTrimmAsync(TrimmDTO trimmDTO, int trimmId, int rabbitRegNo, int originRegNo);
-        Task DeleteTrimmAsync(int trimmId, int rabbitRegNo, int originRegNo);
+        Task UpdateTrimmAsync(TrimmDTO trimmDTO, int id, int originRegNo, int rabbitRegNo);
+        Task DeleteTrimmAsync(int id, int originRegNo, int rabbitRegNo);
     }
 }

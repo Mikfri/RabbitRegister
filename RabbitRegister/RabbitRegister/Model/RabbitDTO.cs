@@ -41,7 +41,7 @@ namespace RabbitRegister.Model
         public DateTime DateOfBirth { get; set; }
 
         [Display(Name = "Vægt i gram: ")]
-        [Range(typeof(int), minimum: "150", maximum: "2000", ErrorMessage = "Vægten må have værdier imellem: {1} og {2}")]
+        [Range(typeof(int), minimum: "150", maximum: "10000", ErrorMessage = "Vægten må have værdier imellem: {1} og {2}")]
         public int? Weight { get; set; }
 
         [Display(Name = "Bedømmelse: ")]

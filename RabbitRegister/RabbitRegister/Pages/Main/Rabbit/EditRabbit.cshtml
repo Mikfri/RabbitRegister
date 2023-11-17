@@ -1,4 +1,4 @@
-﻿@page "{rabbitRegNo:int}/{originRegNo:int}"
+﻿@page "{originRegNo:int}/{rabbitRegNo:int}"
 @model RabbitRegister.Pages.Main.Rabbit.EditRabbitModel
 @{
 }
@@ -15,7 +15,7 @@
 <br><br><br>
 
 <div class="create-container">
-    <form method="post" asp-page="EditRabbit" asp-page-handler="OnPostAsync">
+    <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-25">
                 <label asp-for="@Model.RabbitDTO.Owner" class="control-label">Nuværende ejer </label>
@@ -175,7 +175,22 @@
             <span asp-validation-for="RabbitDTO.Comments" class="text-danger"></span>
         </div>
 
+        @if (!string.IsNullOrEmpty(Model.RabbitDTO.ImagePath))
+        {
+            <div>
+                <img src="" id="uploadedImage" alt="Uploaded Image" style="display: none;" />
+            </div>
+        }
+
         <div class="row">
+            <div class="col-75">
+                <input type="file" name="ImageFile" id="imageFileInput" onchange="displayImage(this)" />
+                <img src="" id="uploadedImage" alt="Uploaded Image" style="display: none;" />
+            </div>
+        </div>
+
+        <br></br>
+        @* <div class="row">
             <div class="col-25">
                 <label asp-for="@Model.RabbitDTO.ImageString" class="control-label">Billede</label>
             </div>
@@ -183,7 +198,7 @@
                 <input asp-for="@Model.RabbitDTO.ImageString" class="form-control" />
                 <span asp-validation-for="@Model.RabbitDTO.ImageString" class="text-danger"></span>
             </div>
-        </div>
+        </div> *@
 
         <p>
             <div class="form-group">
@@ -239,4 +254,24 @@
         // Initial opdatering ved siden indlæsning
         updateColorDropdown();
     });
+</script>
+<script>
+    function displayImage(input) {
+        var file = input.files[0];
+        var image = document.getElementById('uploadedImage');
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                image.src = e.target.result;
+                image.style.display = 'block';
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            image.src = '';
+            image.style.display = 'none';
+        }
+    }
 </script>

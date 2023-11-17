@@ -36,8 +36,8 @@
         <form method="post" class="form-inline">
             <input type="hidden" name="breederRegNo" value="@Model.BreederRegNo" />
             <div class="input-group">
-                <input asp-for="RabbitRegNo" class="form-control" value="" placeholder="V-øre ID" />
                 <input asp-for="OriginRegNo" class="form-control" value="" placeholder="H-øre ID" />
+                <input asp-for="RabbitRegNo" class="form-control" value="" placeholder="V-øre ID" />
                 <input type="submit" asp-page-handler="SearchByRegNo" value="Søg" class="btn btn-primary" />
             </div>
         </form>
@@ -89,7 +89,7 @@
                 foreach (var Rabbit in Model.Rabbits)
                 {
                     <!-- Profil link -->
-                    <a class="click-card flex-item" asp-page="/Main/Rabbit/RabbitProfile" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo" asp-route-originRegNo="@Rabbit.OriginRegNo">
+                    <a class="click-card flex-item" asp-page="/Main/Rabbit/RabbitProfile" asp-route-originRegNo="@Rabbit.OriginRegNo" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo">
 
                         <div class="card">
                             @* @if (Rabbit.ImagePath == null)
@@ -116,15 +116,15 @@
 
                             <div class="w3-container">
                                 <h6><b>@Rabbit.Name</b></h6>
-                                <p>V-øre ID: @Rabbit.RabbitRegNo</p>
                                 <p>H-øre ID: @Rabbit.OriginRegNo </p>
+                                <p>V-øre ID: @Rabbit.RabbitRegNo</p>
 
                                 @if (User.Identity.Name == Rabbit.Owner.ToString())
                                 {
-                                    <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo" asp-route-originRegNo="@Rabbit.OriginRegNo">
+                                    <a class="btn-card btn-primary btn-sm mr-1" type="button" title="Edit" asp-page="/Main/Rabbit/EditRabbit" asp-route-originRegNo="@Rabbit.OriginRegNo" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo" asp-route-originRegNo="@Rabbit.OriginRegNo">
+                                    <a class="btn-card btn-danger btn-sm" type="button" title="Delete" asp-page="/Main/Rabbit/DeleteRabbit" asp-route-originRegNo="@Rabbit.OriginRegNo" asp-route-rabbitRegNo="@Rabbit.RabbitRegNo">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 }

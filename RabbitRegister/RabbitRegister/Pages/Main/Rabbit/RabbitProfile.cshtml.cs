@@ -28,9 +28,9 @@ namespace RabbitRegister.Pages.Main.Rabbit
 
         public List<Model.Trimm> TrimmList { get; set; } = new List<Model.Trimm>();
 
-        public IActionResult OnGet(int rabbitRegNo, int originRegNo)
+        public IActionResult OnGet(int originRegNo, int rabbitRegNo)
         {
-            Rabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
+            Rabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
 
             if (Rabbit == null)
             {
@@ -39,16 +39,16 @@ namespace RabbitRegister.Pages.Main.Rabbit
 
             if (User.Identity.Name == Rabbit.Owner.ToString() || User.Identity.Name == Rabbit.OriginRegNo.ToString() || Rabbit.IsForSale == IsForSale.Ja)
             {
-                TrimmList = _trimmService.GetAllTrimmsByRabbit(rabbitRegNo, originRegNo);
+                TrimmList = _trimmService.GetAllTrimmsByRabbit(originRegNo, rabbitRegNo);
                 return Page();
             }
 
             return RedirectToPage("/Account/AccessDenied");         
         }
 
-        public IActionResult OnGetGetAllTrimmsByRabbit(int rabbitRegNo, int originRegNo)
+        public IActionResult OnGetGetAllTrimmsByRabbit(int originRegNo,int rabbitRegNo)
         {
-            TrimmList = _trimmService.GetAllTrimmsByRabbit(rabbitRegNo, originRegNo);
+            TrimmList = _trimmService.GetAllTrimmsByRabbit(originRegNo, rabbitRegNo);
 
             if (TrimmList == null || TrimmList.Count == 0)
             {

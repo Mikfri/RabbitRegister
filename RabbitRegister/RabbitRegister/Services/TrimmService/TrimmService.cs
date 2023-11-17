@@ -19,14 +19,14 @@ namespace RabbitRegister.Services.TrimmService
 
         //public TrimmService() { }
 
-        public List<Trimm> GetAllTrimmsByRabbit(int rabbitRegNo, int originRegNo)
+        public List<Trimm> GetAllTrimmsByRabbit(int originRegNo, int rabbitRegNo)
         {
             return _trimmsList.Where(trimming => trimming.RabbitRegNo == rabbitRegNo && trimming.OriginRegNo == originRegNo).ToList();
         }
 
-        public Trimm GetTrimm(int id, int rabbitRegNo, int originRegNo)
+        public Trimm GetTrimm(int id, int originRegNo, int rabbitRegNo)
         {
-            return _trimmsList.Find(t => t.Id == id && t.RabbitRegNo == rabbitRegNo && t.OriginRegNo == originRegNo);
+            return _trimmsList.Find(t => t.Id == id && t.OriginRegNo == originRegNo && t.RabbitRegNo == rabbitRegNo);
         }
 
         public async Task AddTrimmAsync(TrimmDTO trimmDTO, Rabbit rabbit)
@@ -44,23 +44,16 @@ namespace RabbitRegister.Services.TrimmService
             newTrimm.DisposableWoolWeight = trimmDTO.DisposableWoolWeight;
 
             _trimmsList.Add(newTrimm);
-            await _dbGenericService.AddObjectAsync(newTrimm);
-
-            if (rabbit.Trimms == null)
-            {
-                rabbit.Trimms = new List<Trimm>();
-            }
-
-            rabbit.Trimms.Add(newTrimm);
+            await _dbGenericService.AddObjectAsync(newTrimm);            
         }
 
         
 
-        public async Task UpdateTrimmAsync(TrimmDTO trimmDTO, int trimmId, int rabbitRegNo, int originRegNo)
+        public async Task UpdateTrimmAsync(TrimmDTO trimmDTO, int id, int originRegNo, int rabbitRegNo)
         {
             if (trimmDTO != null)
             {
-                Trimm existingTrimm = _trimmsList.Find(t => t.Id == trimmId && t.RabbitRegNo == rabbitRegNo && t.OriginRegNo == originRegNo);
+                Trimm existingTrimm = _trimmsList.Find(t => t.Id == id && t.OriginRegNo == originRegNo && t.RabbitRegNo == rabbitRegNo);
                 if (existingTrimm != null)
                 {
                     existingTrimm.Date = trimmDTO.Date;
@@ -76,13 +69,13 @@ namespace RabbitRegister.Services.TrimmService
             }
         }
 
-        public async Task DeleteTrimmAsync(int trimmId, int rabbitRegNo, int originRegNo)
+        public async Task DeleteTrimmAsync(int id, int originRegNo, int rabbitRegNo)
         {
-            Trimm trimToBeDeleted = GetTrimm(trimmId, rabbitRegNo, originRegNo);
-            var trimm = await _dbGenericService.GetObjectByIdAsync(trimmId);
-            if (trimm != null)
+            Trimm trimToBeDeleted = GetTrimm(id, originRegNo, rabbitRegNo);
+            if (trimToBeDeleted != null)
             {
-                await _dbGenericService.DeleteObjectAsync(trimm);
+                _trimmsList.Remove(trimToBeDeleted);
+                await _dbGenericService.DeleteObjectAsync(trimToBeDeleted);
             }
         }
 

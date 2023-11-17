@@ -25,60 +25,33 @@ namespace RabbitRegister.Pages.Main.Trimm
         //[BindProperty]
         //public Model.Rabbit Rabbit { get; set; }
 
-        public void OnGet(int rabbitRegNo, int originRegNo)
+        public void OnGet(int originRegNo, int rabbitRegNo)
         {
-            trimmCreateDTO.RabbitRegNo = rabbitRegNo;
             trimmCreateDTO.OriginRegNo = originRegNo;
-        }
-        //public async Task<IActionResult> OnPostAsync(int rabbitRegNo, int originRegNo)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Page();
-        //    }
-
-        //    var rabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
-
-        //    await _trimmService.AddTrimmAsync(trimmCreateDTO, rabbit);
-        //    return RedirectToPage("RabbitProfile");
-        //}
+            trimmCreateDTO.RabbitRegNo = rabbitRegNo;
+        }      
 
 
-        public async Task<IActionResult> OnPostAsync(int rabbitRegNo, int originRegNo)
+        public async Task<IActionResult> OnPostAsync(int originRegNo, int rabbitRegNo)
         {
             if (ModelState.IsValid)
             {
                 // Hent Rabbit fra databasen baseret på rabbitRegNo og originRegNo
-                var rabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
+                var rabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
 
                 // Opdater RabbitRegNo og OriginRegNo i trimmCreateDTO
-                trimmCreateDTO.RabbitRegNo = rabbitRegNo;
                 trimmCreateDTO.OriginRegNo = originRegNo;
+                trimmCreateDTO.RabbitRegNo = rabbitRegNo;
 
                 // Opret Trimm ved hjælp af TrimmService
                 await _trimmService.AddTrimmAsync(trimmCreateDTO, rabbit);
 
                 // Omdiriger til RabbitProfile siden
-                return RedirectToPage("/Main/Rabbit/RabbitProfile", new { rabbitRegNo, originRegNo });
+                return RedirectToPage("/Main/Rabbit/RabbitProfile", new { originRegNo, rabbitRegNo });
             }
 
             // Hvis modeltilstanden ikke er gyldig, vis formularsiden igen med fejlmeddelelser
             return Page();
-        }
-
-        //public async Task<IActionResult> OnPostAsync()
-        //{
-        //    //Denne del kigger på brugerens INPUT er korrekt udført.NB: IKKE om kanin med samme ID eksistere
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Page();
-        //    }
-        //    var existingTrimm = _trimmService.GetTrimm(trimmCreateDTO.RabbitRegNo, RabbitCreateDto.OriginRegNo);
-
-        //    var rabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
-
-        //    await _trimmService.AddTrimmAsync(trimmCreateDTO, rabbit);
-        //    return RedirectToPage("GetAllRabbits");
-        //}
+        }        
     }
 }
