@@ -1,0 +1,48 @@
+﻿@page "{id:int}/{originRegNo:int}/{rabbitRegNo:int}"
+@model RabbitRegister.Pages.Main.Trimm.DeleteTrimmModel
+@{
+}
+
+<h1>Slet Kanin</h1>
+
+<h3>Er du sikker på at ville slette valgte kanin?</h3>
+<div class="min-vh-100">
+
+    <div>
+        <h4>Sletter...</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Trimm.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Trimm.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Trimm.OriginRegNo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Trimm.OriginRegNo)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Trimm.RabbitRegNo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Trimm.RabbitRegNo)
+            </dd>            
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Trimm.Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Trimm.Date)
+            </dd>
+        </dl>
+
+        <form method="post">
+            <input type="hidden" asp-for="Trimm.Id" />
+            <button type="submit" class="btn btn-danger">Ja</button>
+            <button type="button" onclick="history.go(-1)" class="btn btn-primary">Nej</button>
+        </form>
+    </div>
+</div>

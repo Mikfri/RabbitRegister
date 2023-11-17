@@ -12,7 +12,11 @@ using RabbitRegister.EFDbContext;
 namespace RabbitRegister.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
+<<<<<<<< HEAD:RabbitRegister/RabbitRegister/Migrations/20231116195051_RabbitReg.Designer.cs
     [Migration("20231116195051_RabbitReg")]
+========
+    [Migration("20231117115945_RabbitReg")]
+>>>>>>>> MikRab:RabbitRegister/RabbitRegister/Migrations/20231117115945_RabbitReg.Designer.cs
     partial class RabbitReg
     {
         /// <inheritdoc />
@@ -406,7 +410,7 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Breeder", "Breeder")
-                        .WithMany("Rabbits")
+                        .WithMany()
                         .HasForeignKey("Owner");
 
                     b.Navigation("Breeder");
@@ -415,22 +419,12 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Trimm", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Rabbit", "Rabbit")
-                        .WithMany("Trimms")
+                        .WithMany()
                         .HasForeignKey("RabbitRegNo", "OriginRegNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rabbit");
-                });
-
-            modelBuilder.Entity("RabbitRegister.Model.Breeder", b =>
-                {
-                    b.Navigation("Rabbits");
-                });
-
-            modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
-                {
-                    b.Navigation("Trimms");
                 });
 #pragma warning restore 612, 618
         }

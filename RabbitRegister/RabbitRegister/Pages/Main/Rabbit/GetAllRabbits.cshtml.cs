@@ -83,11 +83,11 @@ namespace RabbitRegister.Pages.Main.Rabbit
             return Page();
         }
 
-        public IActionResult OnPostSearchByRegNo(int? rabbitRegNo, int? originRegNo)
+        public IActionResult OnPostSearchByRegNo(int? originRegNo, int? rabbitRegNo)
         {
             int breederRegNo = int.Parse(User.Identity.Name);
 
-            Rabbits = _rabbitService.SearchByRegNo(rabbitRegNo, originRegNo, breederRegNo).ToList();
+            Rabbits = _rabbitService.SearchByRegNo(originRegNo, rabbitRegNo, breederRegNo).ToList();
 
             return Page();
         }

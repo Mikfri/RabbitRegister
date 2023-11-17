@@ -5,6 +5,7 @@ namespace RabbitRegister.Model
 {
     public class TrimmDTO
     {
+        public int Id { get; set; }
 
         public int RabbitRegNo { get; set; }
         public int OriginRegNo { get; set; }

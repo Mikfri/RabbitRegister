@@ -4,17 +4,17 @@ namespace RabbitRegister.Services.RabbitService
 {
     public interface IRabbitService
     {
-        Rabbit GetRabbit(int id, int originRegNo);
+        Rabbit GetRabbit(int originRegNo, int rabbitRegNo);
         //Rabbit GetRabbit(int id);
         List<Rabbit> GetAllRabbits();
         Task AddRabbitAsync(RabbitDTO dto, Breeder breeder);
         //Task AddRabbitAsync(Rabbit rabbit, Breeder breeder);
         //Task UpdateRabbitAsync(Rabbit rabbit, int id);
-        Task UpdateRabbitAsync(RabbitDTO rabbitDTO, int rabbitRegNo, int originRegNo);
-        Task<Rabbit> DeleteRabbitAsync(int? rabbitRegNo, int? originRegNo);
+        Task UpdateRabbitAsync(RabbitDTO rabbitDTO, int originRegNo, int rabbitRegNo);
+        Task<Rabbit> DeleteRabbitAsync(int? originRegNo, int? rabbitRegNo);
         IEnumerable<Rabbit> SearchByName(string str, int breederRegNo);
         IEnumerable<Rabbit> RatingFilter(int breederRegNo, int? maxRating = null, int? minRating = null);
-        IEnumerable<Rabbit> SearchByRegNo(int? rabbitRegNo, int? originRegNo, int breederRegNo);
+        IEnumerable<Rabbit> SearchByRegNo(int? originRegNo, int? rabbitRegNo, int breederRegNo);
         IEnumerable<Rabbit> SortById();
         IEnumerable<Rabbit> SortByIdDescending();
         IEnumerable<Rabbit> SortByName();

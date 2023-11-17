@@ -49,5 +49,15 @@ namespace RabbitRegister.Utilities
             }
         }
 
+        // Tilføj denne midlertidige metode til din ImageHelper-klasse
+        public static void TestDeleteImage(string imagePath)
+        {
+            if (File.Exists(imagePath))
+            {
+                string normalizedPath = Path.GetFullPath(imagePath);
+                File.Delete(normalizedPath);
+            }
+        }
+       
     }
 }

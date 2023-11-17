@@ -1,0 +1,136 @@
+﻿@page "{id:int}/{originRegNo:int}/{rabbitRegNo:int}"
+@model RabbitRegister.Pages.Main.Trimm.EditTrimmModel
+@{
+}
+<link rel="stylesheet" href="/css/responsiveForm.css" />
+
+<br>
+<br>
+<br>
+
+<body>
+    <div class="create-container">
+        <form method="post" asp-page="EditTrimm" asp-page-handler="OnPostAsync">
+            <!-- Ved oprettelse af en kanin sættes Owner propertien til den avleren som er logget på. Read-only, så man ikke kan ændre den -->
+
+           @*  <input asp-for="@Model.TrimmDTO.Id" type="hidden" />
+            <input asp-for="@Model.TrimmDTO.OriginRegNo" type="hidden" />
+            <input asp-for="@Model.TrimmDTO.RabbitRegNo" type="hidden" /> *@
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.Id" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.Id" class="form-control" readonly="@true" placeholder="Højre-øre ID" />
+                    <span asp-validation-for="@Model.TrimmDTO.Id" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.OriginRegNo" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.OriginRegNo" class="form-control" readonly="@true" placeholder="Højre-øre ID" />
+                    <span asp-validation-for="@Model.TrimmDTO.OriginRegNo" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.RabbitRegNo" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.RabbitRegNo" class="form-control" readonly="@true" placeholder="Venstre-øre ID" />
+                    <span asp-validation-for="@Model.TrimmDTO.RabbitRegNo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.Date" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.Date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="@Model.TrimmDTO.Date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.TimeUsed" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.TimeUsed" class="form-control" value="" placeholder="Tid/minutter" />
+                    <span asp-validation-for="@Model.TrimmDTO.TimeUsed" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.HairLengthByDayNinety" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.HairLengthByDayNinety" class="form-control" value="" placeholder="Hårlængde cm" />
+                    <span asp-validation-for="@Model.TrimmDTO.HairLengthByDayNinety" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.FirstSortmentWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.FirstSortmentWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.TrimmDTO.FirstSortmentWeight" class="text-danger"></span>
+                </div>
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.SecondSortmentWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.SecondSortmentWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.TrimmDTO.SecondSortmentWeight" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.DisposableWoolWeight" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.DisposableWoolWeight" class="form-control" value="" placeholder="Gram " />
+                    <span asp-validation-for="@Model.TrimmDTO.DisposableWoolWeight" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label asp-for="@Model.TrimmDTO.WoolDensity" class="control-label"></label>
+                </div>
+                <div class="col-25">
+                    <input asp-for="@Model.TrimmDTO.WoolDensity" class="form-control" value="" placeholder="Point " />
+                    <span asp-validation-for="@Model.TrimmDTO.WoolDensity" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-75">
+                    <input type="submit" value="Opdater" class="btn btn-success" />
+                    <a href="/Main/Rabbit/GetAllRabbits" class="btn btn-warning text-white">Fortryd</a>
+                </div>
+            </div>
+
+        </form>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach (var key in ViewData.ModelState.Keys)
+                    {
+                        foreach (var error in ViewData.ModelState[key].Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</body>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RabbitRegister.Model;
 using RabbitRegister.Services.BreederService;
 using RabbitRegister.Services.RabbitService;
+using RabbitRegister.Utilities;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -12,19 +13,25 @@ namespace RabbitRegister.Pages.Main.Rabbit
     [Authorize(Policy = "BreederOnly")]
     public class EditRabbitModel : PageModel
     {
-        private IRabbitService _rabbitService;
+        private readonly IRabbitService _rabbitService;
+        private readonly ImageHelper _imageHelper;
 
-        public EditRabbitModel(IRabbitService rabbitService)
+
+        public EditRabbitModel(IRabbitService rabbitService, ImageHelper imageHelper)
         {
             _rabbitService = rabbitService;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
         public RabbitDTO RabbitDTO { get; set; }
 
-        public IActionResult OnGet(int rabbitRegNo, int originRegNo)
+        [BindProperty]
+        public IFormFile ImageFile { get; set; }
+
+        public IActionResult OnGet(int originRegNo, int rabbitRegNo)
         {
-            var existingRabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
+            var existingRabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
 
             if (existingRabbit == null)
             {
@@ -60,15 +67,28 @@ namespace RabbitRegister.Pages.Main.Rabbit
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(RabbitDTO rabbitDTO, int rabbitRegNo, int originRegNo)
+        public async Task<IActionResult> OnPostAsync(RabbitDTO rabbitDTO, int originRegNo, int rabbitRegNo)
         {
-
             if (!ModelState.IsValid)
             {
                 return Page();
-            }                     
+            }
 
-            await _rabbitService.UpdateRabbitAsync(rabbitDTO, rabbitRegNo, originRegNo);
+            // Hvis der er et nyt billede, upload og opdater stien i RabbitDTO
+            if (ImageFile != null && ImageFile.Length > 0)
+            {
+                // Gem billedet og opdater stien i RabbitDTO
+                string imagePath = await _imageHelper.SaveImageAsync(ImageFile);
+                rabbitDTO.ImagePath = imagePath;
+
+                var existingRabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
+                if (!string.IsNullOrEmpty(existingRabbit.ImagePath))
+                {
+                    ImageHelper.TestDeleteImage(existingRabbit.ImagePath);
+                }
+            }
+
+            await _rabbitService.UpdateRabbitAsync(rabbitDTO, originRegNo, rabbitRegNo);
             return RedirectToPage("GetAllRabbits");
         }
     }

@@ -11,6 +11,7 @@ namespace RabbitRegister.MockData
         {
             new Breeder(5095,"Ida","Fynsvej 14",4060,"Ida.fri.@gmail.com","27586455",passwordHasher.HashPassword(null, "Ida123"),true) {},
             new Breeder(5053,"Maja","Holbækvej __",4300,"MajaHulstroem.@gmail.com","28733085",passwordHasher.HashPassword(null, "Maja123"),false) {},
+            new Breeder(5014,"Christina","Fiktivvej __",4300,"Christina.mail@gmail.com","44226611",passwordHasher.HashPassword(null, "Chr!stina"),false) {},
         };
         public static List<Breeder> GetMockBreeders() { return breeders; }
     }

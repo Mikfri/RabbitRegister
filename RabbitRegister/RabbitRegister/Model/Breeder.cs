@@ -41,9 +41,6 @@ namespace RabbitRegister.Model
 
         public bool isAdmin { get; set; } // Angiver om avleren er administrator
 
-        public virtual ICollection<Rabbit> Rabbits { get; set; }
-
-
         public Breeder()
         {
             // Tom constructor

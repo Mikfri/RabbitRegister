@@ -54,6 +54,21 @@
         <span asp-validation-for="Breeder.isAdmin" class="text-danger"></span>
     </div>
     }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @foreach (var key in ViewData.ModelState.Keys)
+                {
+                    foreach (var error in ViewData.ModelState[key].Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
    
     <p>
         <div class="form-group">

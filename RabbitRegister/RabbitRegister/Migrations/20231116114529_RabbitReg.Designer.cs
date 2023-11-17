@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RabbitRegister.EFDbContext;
 
@@ -11,9 +12,11 @@ using RabbitRegister.EFDbContext;
 namespace RabbitRegister.Migrations
 {
     [DbContext(typeof(ItemDbContext))]
-    partial class ItemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231116114529_RabbitReg")]
+    partial class RabbitReg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -403,7 +406,7 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Breeder", "Breeder")
-                        .WithMany()
+                        .WithMany("Rabbits")
                         .HasForeignKey("Owner");
 
                     b.Navigation("Breeder");
@@ -412,12 +415,22 @@ namespace RabbitRegister.Migrations
             modelBuilder.Entity("RabbitRegister.Model.Trimm", b =>
                 {
                     b.HasOne("RabbitRegister.Model.Rabbit", "Rabbit")
-                        .WithMany()
+                        .WithMany("Trimms")
                         .HasForeignKey("RabbitRegNo", "OriginRegNo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Rabbit");
+                });
+
+            modelBuilder.Entity("RabbitRegister.Model.Breeder", b =>
+                {
+                    b.Navigation("Rabbits");
+                });
+
+            modelBuilder.Entity("RabbitRegister.Model.Rabbit", b =>
+                {
+                    b.Navigation("Trimms");
                 });
 #pragma warning restore 612, 618
         }

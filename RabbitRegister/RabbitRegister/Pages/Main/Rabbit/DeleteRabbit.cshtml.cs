@@ -19,9 +19,9 @@ namespace RabbitRegister.Pages.Main.Rabbit
         public Model.Rabbit Rabbit { get; set; }
 
 
-        public IActionResult OnGet(int rabbitRegNo, int originRegNo)
+        public IActionResult OnGet(int originRegNo, int rabbitRegNo)
         {
-            Rabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
+            Rabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
             if (Rabbit == null)
             {
                 return RedirectToPage("/NotFound");
@@ -41,9 +41,9 @@ namespace RabbitRegister.Pages.Main.Rabbit
         /// <param name="rabbitRegNo">Første nøgle-del for kaninens composite key</param>
         /// <param name="originRegNo">Anden nøgle-del for kaninens composite key</param>
         /// <returns>Omdirigerer til GetAllRabbits med avlerens, Avler-ID</returns>
-        public async Task<IActionResult> OnPostAsync(int rabbitRegNo, int originRegNo)
+        public async Task<IActionResult> OnPostAsync(int originRegNo, int rabbitRegNo)
         {
-            var existingRabbit = _rabbitService.GetRabbit(rabbitRegNo, originRegNo);
+            var existingRabbit = _rabbitService.GetRabbit(originRegNo, rabbitRegNo);
 
             if (existingRabbit == null)
             {
@@ -55,7 +55,7 @@ namespace RabbitRegister.Pages.Main.Rabbit
                 return Forbid();
             }
 
-            Model.Rabbit deletedRabbit = await _rabbitService.DeleteRabbitAsync(rabbitRegNo, originRegNo);
+            Model.Rabbit deletedRabbit = await _rabbitService.DeleteRabbitAsync(originRegNo, rabbitRegNo);
 
             return RedirectToPage("GetAllRabbits");
         }
